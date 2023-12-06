@@ -1,3 +1,75 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  @variants responsive {
+    .text-shadow-xs {
+      text-shadow: 0px 0px 2px gray;
+    }
+    .text-shadow-sm {
+      text-shadow: 1px 1px 1px gray;
+    }
+    .text-shadow {
+      text-shadow: 2px 2px 4px gray;
+    }
+    .text-shadow-md {
+      text-shadow: 4px 4px 8px gray;
+    }
+    .text-shadow-lg {
+      text-shadow: 15px 15px 30px gray;
+    }
+    .text-shadow-none {
+      text-shadow: none;
+    }
+    .text-shadow-xs-black{
+      text-shadow: 0px 0px 2px black;
+    }
+    .text-shadow-sm-black{
+      text-shadow: 1px 1px 1px black;
+    }
+    .box-shadow-xs{
+      box-shadow: 0px 2px 6px rgb(200,200,200);
+    }
+    .box-shadow-sm{
+      box-shadow: 0px 2px 4px rgb(140,140,140);
+    }
+    .box-shadow-md{
+      filter: drop-shadow(0px 0px 3px #2d2d2d);
+    }
+    .box-r-shadow-xs{
+      filter: drop-shadow(3px 3px 3px rgb(45,45,45,10));
+    }
+    .box-r-shadow-sm{
+      box-shadow: 1px 1px 4px rgb(150,150,150);
+    }
+    .box-outline-sm{
+      filter: drop-shadow(0px 0px 2px #2d2d2d);
+    }
+    .black-text{
+      color: black;
+      text-shadow: 0px 0px 2px black;
+    }
+    .gray-text{
+      color: rgb(107 114 128);
+      text-shadow: 0px 0px 2px black;
+    }
+} 
+}
+
+::-webkit-scrollbar { 
+  width: 8px; 
+} 
+
+::-webkit-scrollbar-track { 
+  background: #f1f1f1; 
+} 
+
+::-webkit-scrollbar-thumb { 
+  background: #888; 
+  border-radius: 5px; 
+} 
+
+::-webkit-scrollbar-thumb:hover { 
+  background: #555; 
+}
