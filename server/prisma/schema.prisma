@@ -10,3 +10,79 @@ datasource db {
   url       = env("POSTGRES_PRISMA_URL")
   directUrl = env("POSTGRES_URL_NON_POOLING")
 }
+
+model User {
+  id        String    @id @default(uuid())
+  email     String    @unique
+  role      Role      @default(USER)
+  password  String
+  createdAt DateTime  @default(now())
+  Personal  Personal?
+  Address   Address?
+  Cart      Cart[]
+}
+
+enum Role {
+  USER
+  MODERATOR
+  ADMIN
+}
+
+model Personal {
+  user     User   @relation(fields: [userId], references: [id])
+  userId   String @unique
+  name     String
+  lastname String
+  phone    String
+}
+
+model Address {
+  user        User    @relation(fields: [userId], references: [id])
+  userId      String  @unique
+  voivodeship String
+  district    String
+  town        String
+  street      String?
+  residence   String
+  postcode    String
+}
+
+model Item {
+  id          String     @id @default(uuid())
+  name        String
+  price       Float
+  stock       Int
+  description String     @db.VarChar(65535)
+  createdAt   DateTime   @default(now())
+  Category    Category?  @relation(fields: [categoryId], references: [id])
+  categoryId  String?
+  Producent   Producent? @relation(fields: [producentId], references: [id])
+  producentId String?
+  image       String
+  type        Int        @default(0)
+  Dlc         Item?      @relation("DLCRelation", fields: [dlcId], references: [id])
+  dlcId       String?
+  dlcOf       Item[]     @relation("DLCRelation")
+  Cart        Cart[]
+}
+
+model Category {
+  id   String @id @default(uuid())
+  name String
+  Item Item[]
+}
+
+model Producent {
+  id   String @id @default(uuid())
+  name String
+  Item Item[]
+}
+
+model Cart {
+  id        String   @id @default(uuid())
+  User      User     @relation(fields: [userId], references: [id])
+  userId    String
+  Item      Item     @relation(fields: [itemId], references: [id])
+  itemId    String
+  createdAt DateTime @default(now())
+}
