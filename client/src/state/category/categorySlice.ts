@@ -1,11 +1,11 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 interface CategoryState {
-  category: string;
+  name: string;
 }
 
 const initialState: CategoryState = {
-  category: 'All categories',
+  name: 'All categories',
 };
 
 export const categorySlice = createSlice({
@@ -13,9 +13,11 @@ export const categorySlice = createSlice({
   initialState,
   reducers: {
     setCategory: (state, action: PayloadAction<string>) => {
-      state.category = action.payload;
+      state.name = action.payload;
     },
   },
 });
+
+export const { setCategory } = categorySlice.actions;
 
 export default categorySlice.reducer;

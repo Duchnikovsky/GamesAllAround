@@ -1,20 +1,19 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { ArrowRight, ChevronDown } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import { useState } from "react";
-
-interface CategoriesProps {
-  category: string;
-  setCategory: (category: string) => void;
-}
+import CategoryItem from "./CategoryItem";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../state/store";
 
 interface CategoriesTypes {
   id: string;
   name: string;
 }
 
-export default function Categories({ category, setCategory }: CategoriesProps) {
+export default function Categories() {
   const [select, toggleSelect] = useState<boolean>(false);
+  const category = useSelector((state: RootState) => state.category.name);
 
   const { data } = useQuery({
     queryKey: ["categories-query"],
@@ -39,43 +38,20 @@ export default function Categories({ category, setCategory }: CategoriesProps) {
       <ChevronDown size={20} className="mt-1" />
       {select && (
         <div
-          className="absolute left-0 w-48 top-10 h-64 rounded-md bg-zinc-50 box-shadow-xs overflow-y-auto text-sm"
+          className="absolute left-0 w-52 top-10 h-64 rounded-md bg-zinc-50 box-shadow-xs overflow-y-auto text-sm"
           onClick={(e) => e.stopPropagation()}
         >
-          <div
-            className="relative w-full h-8 pl-10 flex items-center bg-zinc-50 mt-1 bg-zinc-50 hover:bg-zinc-100"
-            onClick={() => {
-              toggleSelect(false);
-              setCategory("All categories");
-            }}
-          >
-            {category === "All categories" && (
-              <ArrowRight
-                size={20}
-                strokeWidth={1}
-                className="absolute left-2"
-              />
-            )}
-            All categories
-          </div>
+          <CategoryItem
+            name="All categories"
+            toggleSelect={toggleSelect}
+            index={0}
+          />
           {categories.map((name: string, index) => (
-            <div
-              className="relative w-full h-8 pl-10 flex items-center bg-zinc-50 bg-zinc-50 hover:bg-zinc-100"
-              onClick={() => {
-                toggleSelect(false);
-                setCategory(name);
-              }}
-              key={index}
-            >
-              {name === category && (
-                <ArrowRight
-                  size={20}
-                  strokeWidth={1}
-                  className="absolute left-2"
-                />
-              )}
-              {name}
-            </div>
+            <CategoryItem
+              name={name}
+              toggleSelect={toggleSelect}
+              index={index + 1}
+            />
           ))}
         </div>
       )}

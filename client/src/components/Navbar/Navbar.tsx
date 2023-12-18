@@ -16,7 +16,7 @@ export default function Navbar() {
         </Link>
         <SearchBar />
         <NavbarNav />
-        <div className="absolute left-0 top-14 block sm:hidden w-full h-14 bg-zinc-50">
+        <div className="absolute left-0 top-14 block sm:hidden w-full h-14 bg-transparent">
           <MiniSearchBar />
         </div>
       </div>
