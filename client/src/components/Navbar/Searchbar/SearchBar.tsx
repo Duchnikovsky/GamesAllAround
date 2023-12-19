@@ -6,6 +6,8 @@ import axios from "axios";
 import Product from "./Product";
 import { useNavigate } from "react-router";
 import Categories from "./Categories";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../state/store";
 
 interface ProductTypes {
   id: string;
@@ -17,7 +19,7 @@ interface ProductTypes {
 
 export default function SearchBar() {
   const [value, setValue] = useState<string>("");
-  const [category, setCategory] = useState<string>("All categories");
+  const category = useSelector((state: RootState) => state.category.name);
   const navigate = useNavigate();
 
   const { data, refetch, isFetching } = useQuery({
@@ -62,10 +64,7 @@ export default function SearchBar() {
         <div className="w-20 h-full flex bg-black/80 rounded-r-md justify-center items-center cursor-pointer hover:bg-black/90">
           <Search className="text-white" />
         </div>
-        <Categories
-          category={category}
-          setCategory={(cat: string) => setCategory(cat)}
-        />
+        <Categories />
         <input
           type="text"
           id="searchbar"
