@@ -7,11 +7,12 @@ import {
 
 import Providers from "./components/Providers";
 import Root from "./layout/Root";
+import Page404 from "./pages/Page404";
 
 const router = createBrowserRouter(
   createRoutesFromElements(<>
   <Route path="/" element={<Root />}>
-
+    <Route path="*" element={<Page404 />}></Route>
   </Route>
   </>)
 )
