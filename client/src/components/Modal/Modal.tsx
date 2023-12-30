@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../state/store";
 import { setModal } from "../../state/modal/modalSlice";
-import logo from '../../assets/logo.png'
+import logo from "../../assets/logo.png";
 import SignIn from "../Auth/SignIn";
 import SignUp from "../Auth/SignUp";
 
@@ -9,8 +9,6 @@ interface modalsTypes {
   id: number;
   name: string;
   component: JSX.Element;
-  width: number;
-  height: number;
 }
 
 export default function Modal() {
@@ -22,19 +20,15 @@ export default function Modal() {
       id: 0,
       name: "signIn",
       component: <SignIn />,
-      width: 96,
-      height: 96,
     },
     {
       id: 1,
       name: "signUp",
       component: <SignUp />,
-      width: 96,
-      height: 96,
     },
   ];
 
-  const activeModal = modals.find(m => m.name === modal.modalType)
+  const activeModal = modals.find((m) => m.name === modal.modalType);
 
   if (modal.isOpen)
     return (
@@ -43,10 +37,10 @@ export default function Modal() {
         onClick={() => dispatch(setModal({ isOpen: false, modalType: "" }))}
       >
         <div
-          className={`w-screen sm:w-${activeModal?.width} h-${activeModal?.height} rounded bg-white box-r-shadow-xs flex flex-col items-center gap-6 p-6`}
+          className='w-screen sm:w-auto rounded bg-white box-r-shadow-xs flex flex-col items-center gap-2 py-6'
           onClick={(e) => e.stopPropagation()}
         >
-          <img src={logo} alt='logo' className="w-20"/>
+          <img src={logo} alt="logo" className="w-20" loading="lazy"/>
           {activeModal?.component}
         </div>
       </div>
