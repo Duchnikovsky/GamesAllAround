@@ -3,7 +3,12 @@
 @tailwind utilities;
 
 @layer base {
+  @font-face {
+    font-family: 'ClashGrotesk';
+    font-style: normal;
+    src: url(./assets/ClashGrotest.otf);
+  }
   html {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: ClashGrotesk;
   }
 }
