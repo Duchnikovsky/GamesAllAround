@@ -12,3 +12,12 @@
     font-family: ClashGrotesk;
   }
 }
+
+@variants responsive{
+  .light-shadow {
+    box-shadow: 1px 1px 4px rgb(100, 100, 100);
+  }
+  .dark-shadow {
+    box-shadow: 1px 1px 4px rgb(40, 40, 40);
+  }
+}
