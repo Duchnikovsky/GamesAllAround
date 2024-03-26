@@ -1,6 +1,7 @@
+import { MouseEvent } from "react";
 import { BiSolidCategory, BiSolidContact } from "react-icons/bi";
 import { IoExtensionPuzzle, IoHome } from "react-icons/io5";
-import { useLocation } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 
 interface subcategoriesTypes {
@@ -21,6 +22,7 @@ interface categoriesTypes {
 
 export default function Categories() {
   const location = useLocation();
+  const navigate = useNavigate();
 
   const categories: categoriesTypes[] = [
     {
@@ -70,12 +72,12 @@ export default function Categories() {
   ];
 
   return (
-    <div className="hidden h-20 pt-5 sm:flex gap-4 items-start">
+    <div className="hidden sm:flex h-20 pt-5 gap-4 items-start">
       {categories.map((category: categoriesTypes) => (
         <div
-          className={`flex flex-col text-gray-300 text-lg tracking-wide items-center overflow-hidden border-gray-300 hover:text-gray-100 hover:border-gray-100 cursor-pointer transition-all duration-300 ${
-            category.path === location.pathname ? "border-b-2" : "border-b-0" 
-          } ${category.listed ? "hover:bg-zinc-800/60" : "hover:bg-transparent"}`}
+          className={`group flex flex-col text-gray-300 text-lg tracking-wide items-center overflow-hidden border-gray-300 hover:text-gray-100 hover:border-gray-100 cursor-pointer transition-all duration-300 ${
+            category.path === location.pathname ? "border-b-2" : "border-b-0"
+          }`}
           style={{ width: `${category.width}rem`, height: "2rem" }}
           onMouseEnter={(event) => {
             if (event.target === event.currentTarget) {
@@ -95,6 +97,10 @@ export default function Categories() {
               (event.currentTarget as HTMLDivElement).style.height = "2rem";
             }
           }}
+          onClick={(e: MouseEvent<HTMLDivElement>) => {
+            e.stopPropagation();
+            navigate(category.path);
+          }}
           key={category.id}
         >
           <div className="flex flex-row gap-1">
@@ -102,10 +108,19 @@ export default function Categories() {
             {category.name}
           </div>
           {category.listed && (
-            <div className="w-full mt-1 flex flex-col">
+            <div className={`w-full mt-1 flex flex-col ${
+              category.listed ? "group-hover:bg-zinc-800/60" : "group-hover:bg-transparent"
+            }`}>
               {category.subcategories?.map(
                 (subCategory: subcategoriesTypes) => (
-                  <Link to={subCategory.path} className="w-full text-base h-8 pl-2 flex items-center text-gray-300 hover:text-gray-100 hover:border-r-2">
+                  <Link
+                    key={subCategory.id}
+                    to={subCategory.path}
+                    className="w-full text-base h-8 pl-2 flex items-center text-gray-300 hover:text-gray-100 hover:border-r-2"
+                    onClick={(e: MouseEvent<HTMLAnchorElement>) =>
+                      e.stopPropagation()
+                    }
+                  >
                     {subCategory.name}
                   </Link>
                 )
