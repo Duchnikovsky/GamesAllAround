@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useEffect, useRef, useState } from "react";
 
 interface DropdownRootProps extends React.HTMLAttributes<HTMLDivElement> {
   width: number;
@@ -11,6 +11,21 @@ export const ThemeContext = createContext<string | null>(null);
 const DropdownRoot = React.forwardRef<HTMLDivElement, DropdownRootProps>(
   ({ children, width, theme, trigger, ...props }, ref) => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
+
+    const dropdownRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+      function handleClickOutside(event: MouseEvent) {
+        if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+          setIsOpen(false);
+        }
+      }
+
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => {
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
+    }, []);
 
     return (
       <div ref={ref} className="relative pr-1" {...props}>
@@ -27,6 +42,7 @@ const DropdownRoot = React.forwardRef<HTMLDivElement, DropdownRootProps>(
 
         {isOpen && (
           <div
+            ref={dropdownRef}
             className={`absolute flex flex-col p-2 gap-1 ${
               theme === "dark"
                 ? "bg-zinc-800/70 light-shadow"
@@ -34,7 +50,7 @@ const DropdownRoot = React.forwardRef<HTMLDivElement, DropdownRootProps>(
             } h-auto rounded-md z-10 items-center`}
             style={{
               width: width + "rem",
-              left: `calc(50% - ${width / 2}rem)`,
+              left: `calc(50% - ${width-1}rem)`,
               transform: "translateY(10%)",
             }}
           >
