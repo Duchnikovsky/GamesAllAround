@@ -1,0 +1,85 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL")
+  directUrl = env("POSTGRES_URL_NON_POOLING")
+}
+
+model Address {
+  userId      String  @unique
+  voivodeship String
+  district    String
+  town        String
+  street      String?
+  residence   String
+  postcode    String
+  User        User    @relation(fields: [userId], references: [id])
+}
+
+model Cart {
+  id        String   @id
+  userId    String
+  itemId    String
+  createdAt DateTime @default(now())
+  Item      Item     @relation(fields: [itemId], references: [id])
+  User      User     @relation(fields: [userId], references: [id])
+}
+
+model Category {
+  id   String @id
+  name String
+  Item Item[]
+}
+
+model Item {
+  id          String     @id
+  name        String
+  price       Float
+  stock       Int
+  description String     @db.VarChar(65535)
+  createdAt   DateTime   @default(now())
+  categoryId  String?
+  producentId String?
+  image       String
+  type        Int        @default(0)
+  dlcId       String?
+  Cart        Cart[]
+  Category    Category?  @relation(fields: [categoryId], references: [id])
+  Item        Item?      @relation("ItemToItem", fields: [dlcId], references: [id])
+  other_Item  Item[]     @relation("ItemToItem")
+  Producent   Producent? @relation(fields: [producentId], references: [id])
+}
+
+model Personal {
+  userId   String @unique
+  name     String
+  lastname String
+  phone    String
+  User     User   @relation(fields: [userId], references: [id])
+}
+
+model Producent {
+  id   String @id
+  name String
+  Item Item[]
+}
+
+model User {
+  id        String    @id
+  email     String    @unique
+  role      Role      @default(USER)
+  password  String
+  createdAt DateTime  @default(now())
+  Address   Address?
+  Cart      Cart[]
+  Personal  Personal?
+}
+
+enum Role {
+  USER
+  MODERATOR
+  ADMIN
+}
