@@ -43,13 +43,13 @@ export async function signIn(req: Request, res: Response) {
     }
 
     const { email, password } = signInValidator.parse({
-        email: body.email,
-        password: body.password,
-      });
+      email: body.email,
+      password: body.password,
+    });
 
     const user = await getUserByEmail(email);
     if (!user) return res.status(400).send("Invalid email or password");
-    
+
     const comparePass = await bcrypt.compare(password, user.password);
     if (!comparePass) return res.status(400).send("Invalid email or password");
 
@@ -71,5 +71,23 @@ export async function signIn(req: Request, res: Response) {
       return res.status(400).send(error.errors[0].message);
     }
     return res.status(500).send("Could not sign in");
+  }
+}
+
+export async function signOut(req: Request, res: Response) {
+  try {
+    const session = await getAuthSession(req);
+    
+    if (!session) {
+      return res.status(401).send("You aren't signed in");
+    }
+    
+    res.clearCookie("token");
+    res.status(200).send("Successfully signed out");
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      return res.status(400).send(error.errors[0].message);
+    }
+    return res.status(500).send("Could sign out, try again later");
   }
 }

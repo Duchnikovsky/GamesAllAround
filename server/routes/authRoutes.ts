@@ -1,7 +1,11 @@
 import express, { Request, Response, Router } from "express";
-import { getAuthSession, signIn } from "../controllers/authControllers";
+import { getAuthSession, signIn, signOut } from "../controllers/authControllers";
 
 const router: Router = express.Router();
+
+router.post("/signIn", signIn);
+
+router.get("/signOut", signOut)
 
 router.get("/getAuth", async (req: Request, res: Response) => {
   const session = await getAuthSession(req);
@@ -12,7 +16,5 @@ router.get("/getAuth", async (req: Request, res: Response) => {
     return res.status(401).send(session);
   }
 });
-
-router.post("/signIn", signIn);
 
 export default router;

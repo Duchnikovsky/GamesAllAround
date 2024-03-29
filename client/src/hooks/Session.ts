@@ -12,24 +12,33 @@ interface Session {
 }
 
 async function fetchSessionState(): Promise<Session> {
-  const url = `${import.meta.env.VITE_SERVER_URL}/auth/getAuth`;
-  const { data } = await axios.get(url, {
-    withCredentials: true,
-  });
-  return data as Session;
-}
-
-function useSession() {
-  const [session, setSession] = useState<Session>(
-    {
+  try {
+    const url = `${import.meta.env.VITE_SERVER_URL}/auth/getAuth`;
+    const { data } = await axios.get(url, {
+      withCredentials: true,
+    });
+    return data as Session;
+  } catch (error) {
+    return {
       authenticated: false,
       user: {
         id: "",
         email: "",
       },
       token: "",
-    }
-  );
+    };
+  }
+}
+
+function useSession() {
+  const [session, setSession] = useState<Session>({
+    authenticated: false,
+    user: {
+      id: "",
+      email: "",
+    },
+    token: "",
+  });
   const [isLoading, setIsLoading] = useState(true);
 
   const { refetch, data } = useQuery<Session>({
@@ -39,8 +48,6 @@ function useSession() {
     retry: false,
   });
 
-  console.log(data);
-
   useEffect(() => {
     refetch();
     if (data) {
@@ -49,7 +56,7 @@ function useSession() {
     }
   }, [data]);
 
-  return { session, isLoading };
+  return { session, isLoading, refetch };
 }
 
 export default useSession;
