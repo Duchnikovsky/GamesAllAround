@@ -5,8 +5,7 @@
 @layer base {
   @font-face {
     font-family: 'ClashGrotesk';
-    font-style: normal;
-    src: url(./assets/ClashGrotest.otf);
+    src: url(./assets/ClashGrotesk.ttf);
   }
   html {
     font-family: ClashGrotesk;
@@ -19,5 +18,8 @@
   }
   .dark-shadow {
     box-shadow: 1px 1px 4px rgb(40, 40, 40);
+  }
+  .bg-modal {
+    background-image: radial-gradient(circle, rgba(35,35,37,0.95) 0%, rgba(39,39,42,0.85) 75%, rgba(45,45,50,0.95) 100%);
   }
 }
