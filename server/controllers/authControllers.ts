@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { DecodedTypes } from "../types/authTypes";
 import { z } from "zod";
 import { getUserByEmail } from "../models/authModels";
+import { signInValidator } from "../utils/authUtils";
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
@@ -41,19 +42,7 @@ export async function signIn(req: Request, res: Response) {
       return res.status(401).send("You are aleady signed in");
     }
 
-    const { email, password } = z
-      .object({
-        email: z
-          .string()
-          .email("Email has to be valid")
-          .max(100, "Email has to be valid")
-          .min(5, "Email has to be valid"),
-        password: z
-          .string()
-          .min(8, "Password must be between 8-18 characters")
-          .max(18, "Password must be between 8-18 characters"),
-      })
-      .parse({
+    const { email, password } = signInValidator.parse({
         email: body.email,
         password: body.password,
       });
