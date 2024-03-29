@@ -1,5 +1,6 @@
 import { Outlet } from "react-router";
 import Navbar from "../components/Navbar/Navbar";
+import Modal from "../components/Modal/Modal";
 
 export default function Root() {
   return (
@@ -8,6 +9,7 @@ export default function Root() {
         <div className="max-w-6xl mx-auto flex mt-14">
            <Navbar />
         </div>
+        <Modal />
         <Outlet />
       </div>
     </div>
