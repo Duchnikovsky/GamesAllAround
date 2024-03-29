@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../states/store";
 import { setModal } from "../../states/modal/modalSlice";
 import logo from '../../assets/logo.png';
+import SignIn from "../Auth/SignIn";
 
 interface modalsTypes {
   id: number;
@@ -14,7 +15,11 @@ export default function Modal() {
   const dispatch = useDispatch();
 
   const modals: modalsTypes[] = [
-
+    {
+      id: 0,
+      name: "signIn",
+      component: <SignIn />,
+    },
   ];
 
   const activeModal = modals.find((m) => m.name === modal.modalType);
