@@ -1,9 +1,11 @@
 import express, { Request, Response, Router } from "express";
-import { getAuthSession, signIn, signOut } from "../controllers/authControllers";
+import { getAuthSession, signIn, signOut, signUp } from "../controllers/authControllers";
 
 const router: Router = express.Router();
 
 router.post("/signIn", signIn);
+
+router.post("/signUp", signUp)
 
 router.get("/signOut", signOut)
 

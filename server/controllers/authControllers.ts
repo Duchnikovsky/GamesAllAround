@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
 import { DecodedTypes } from "../types/authTypes";
 import { z } from "zod";
-import { getUserByEmail } from "../models/authModels";
-import { signInValidator } from "../utils/authUtils";
+import { createUser, getUserByEmail } from "../models/authModels";
+import { signInValidator, signUpValidator } from "../utils/authUtils";
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
@@ -77,11 +77,11 @@ export async function signIn(req: Request, res: Response) {
 export async function signOut(req: Request, res: Response) {
   try {
     const session = await getAuthSession(req);
-    
+
     if (!session) {
       return res.status(401).send("You aren't signed in");
     }
-    
+
     res.clearCookie("token");
     res.status(200).send("Successfully signed out");
   } catch (error) {
@@ -89,5 +89,40 @@ export async function signOut(req: Request, res: Response) {
       return res.status(400).send(error.errors[0].message);
     }
     return res.status(500).send("Could sign out, try again later");
+  }
+}
+
+export async function signUp(req: Request, res: Response) {
+  const body = await req.body;
+  try {
+    const session = await getAuthSession(req);
+
+    if (session) {
+      return res.status(401).send("You can't sign up while signed in");
+    }
+
+    const { email, password, rep_password } = signUpValidator.parse({
+      email: body.email,
+      password: body.password,
+      rep_password: body.rep_password,
+    });
+
+    if (password !== rep_password) {
+      return res.status(400).send("Passwords do not match");
+    }
+
+    const user = await getUserByEmail(email);
+    if (user) return res.status(400).send("User already exists");
+
+    const hashedPass = await bcrypt.hash(password, 10);
+
+    const newUser = await createUser(email, hashedPass);
+
+    if (newUser) return res.status(200).send("Successfully signed up");
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      return res.status(400).send(error.errors[0].message);
+    }
+    return res.status(500).send("Could not sign up");
   }
 }
