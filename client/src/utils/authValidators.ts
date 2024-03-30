@@ -12,6 +12,12 @@ export interface SignInPayload {
   password: string;
 }
 
+export interface SignUpPayload{
+  email: string;
+  password: string;
+  rep_password: string;
+}
+
 export interface Values {
   [key: string]: string;
 }

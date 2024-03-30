@@ -3,6 +3,7 @@ import { RootState } from "../../states/store";
 import { setModal } from "../../states/modal/modalSlice";
 import logo from '../../assets/logo.png';
 import SignIn from "../Auth/SignIn";
+import SignUp from "../Auth/SignUp";
 
 interface modalsTypes {
   id: number;
@@ -19,6 +20,11 @@ export default function Modal() {
       id: 0,
       name: "signIn",
       component: <SignIn />,
+    },
+    {
+      id: 1,
+      name: "signUp",
+      component: <SignUp />,
     },
   ];
 
