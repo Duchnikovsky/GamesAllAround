@@ -7,7 +7,7 @@ router.post("/signIn", signIn);
 
 router.post("/signUp", signUp)
 
-router.get("/signOut", signOut)
+router.post("/signOut", signOut)
 
 router.get("/getAuth", async (req: Request, res: Response) => {
   const session = await getAuthSession(req);

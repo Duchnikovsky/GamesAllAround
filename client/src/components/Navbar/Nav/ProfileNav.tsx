@@ -5,33 +5,12 @@ import { DropdownItem } from "../../Dropdown/DropdownItem";
 import { FaUser, FaUserCircle } from "react-icons/fa";
 import { CiLogout } from "react-icons/ci";
 import { useNavigate } from "react-router";
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
-import useSession from "../../../hooks/Session";
-import { toast } from "react-toastify";
+import useAuth from "../../../hooks/Auth";
 
 export default function ProfileNav() {
   const navigate = useNavigate();
-  const { refetch } = useSession();
 
-  function onQuerySuccess() {
-    refetch();
-    toast.success("Signed out successfully");
-  }
-
-  const {
-    refetch: signOut,
-  } = useQuery({
-    queryKey: ["sign-out"],
-    queryFn: async () => {
-      const url = `${import.meta.env.VITE_SERVER_URL}/auth/signOut`;
-      const { data } = await axios.get(url, { withCredentials: true });
-      onQuerySuccess();
-      return data;
-    },
-    enabled: false,
-    retry: false,
-  });
+  const { signOut } = useAuth({ values: {} });
 
   return (
     <DropdownRoot width={12} theme="dark" trigger={<FaUserCircle size={32} />}>

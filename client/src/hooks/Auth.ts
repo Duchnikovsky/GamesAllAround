@@ -13,8 +13,8 @@ interface useAuthProps {
 export default function useAuth({ values }: useAuthProps) {
   const dispatch = useDispatch();
   const { refetch } = useSession();
-  
-  const { mutate: signIn, isPending:isSignInPending } = useMutation({
+
+  const { mutate: signIn, isPending: isSignInPending } = useMutation({
     mutationFn: async () => {
       const payload: SignInPayload = {
         email: values["email"],
@@ -42,7 +42,7 @@ export default function useAuth({ values }: useAuthProps) {
     },
   });
 
-  const { mutate: signUp, isPending:isSignUpPending } = useMutation({
+  const { mutate: signUp, isPending: isSignUpPending } = useMutation({
     mutationFn: async () => {
       const payload: SignUpPayload = {
         email: values["email"],
@@ -70,5 +70,26 @@ export default function useAuth({ values }: useAuthProps) {
     },
   });
 
-  return { signIn, isSignInPending, signUp, isSignUpPending };
+  const { mutate: signOut } = useMutation({
+    mutationFn: async () => {
+      const { data } = await axios.post(
+        `${import.meta.env.VITE_SERVER_URL}/auth/signOut`,
+        {},
+        { withCredentials: true }
+      );
+      return data;
+    },
+    onError: (error) => {
+      if (error instanceof AxiosError) {
+        return toast.error(error.response?.data);
+      }
+      return toast.error("Something went wrong");
+    },
+    onSuccess: () => {
+      refetch();
+      return toast.success("Signed out successfully");
+    },
+  });
+
+  return { signIn, isSignInPending, signUp, isSignUpPending, signOut };
 }
