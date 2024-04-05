@@ -51,7 +51,7 @@ const DropdownRoot = React.forwardRef<HTMLDivElement, DropdownRootProps>(
             style={{
               width: width + "rem",
               left: `calc(50% - ${width-1}rem)`,
-              transform: "translateY(10%)",
+              top: "2.5rem",
             }}
           >
             <ThemeContext.Provider value={theme}>
