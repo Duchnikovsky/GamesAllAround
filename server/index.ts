@@ -22,11 +22,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 const port = process.env.APP_PORT || 3001;
 
-const authRoute = require("./routes/authRoutes");
-const cartRoute = require("./routes/cartRoutes");
+import authRoute from "./routes/authRoutes";
 
-app.use("/auth", authRoute);
-app.use("/cart", cartRoute);
+app.use('/auth', authRoute);
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
