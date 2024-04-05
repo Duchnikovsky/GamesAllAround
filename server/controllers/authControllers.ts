@@ -32,6 +32,23 @@ export async function getAuthSession(req: Request): Promise<AuthSession> {
   });
 }
 
+export async function getAuth(req: Request, res: Response) {
+  const session = await getAuthSession(req);
+  
+  if (session) {
+    return res.status(200).send(
+      {
+        authenticated: session.authenticated,
+        id: session.id,
+        email: session.email,
+        role: session.role,
+      }
+    );
+  } else {
+    return res.status(401).send(session);
+  }
+}
+
 export async function signIn(req: Request, res: Response) {
   const body = req.body;
 

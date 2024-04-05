@@ -1,6 +1,7 @@
 const express = require("express");
 import { Request, Response, Router } from "express";
 import {
+  getAuth,
   getAuthSession,
   signIn,
   signOut,
@@ -15,14 +16,6 @@ router.post("/signUp", signUp);
 
 router.post("/signOut", signOut);
 
-router.get("/getAuth", async (req: Request, res: Response) => {
-  const session = await getAuthSession(req);
-
-  if (session) {
-    return res.status(200).send(session);
-  } else {
-    return res.status(401).send(session);
-  }
-});
+router.get("/getAuth", getAuth);
 
 module.exports = router;
