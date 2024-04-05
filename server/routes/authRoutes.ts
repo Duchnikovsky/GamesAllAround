@@ -1,13 +1,19 @@
-import express, { Request, Response, Router } from "express";
-import { getAuthSession, signIn, signOut, signUp } from "../controllers/authControllers";
+const express = require("express");
+import { Request, Response, Router } from "express";
+import {
+  getAuthSession,
+  signIn,
+  signOut,
+  signUp,
+} from "../controllers/authControllers";
 
 const router: Router = express.Router();
 
 router.post("/signIn", signIn);
 
-router.post("/signUp", signUp)
+router.post("/signUp", signUp);
 
-router.post("/signOut", signOut)
+router.post("/signOut", signOut);
 
 router.get("/getAuth", async (req: Request, res: Response) => {
   const session = await getAuthSession(req);
@@ -19,4 +25,4 @@ router.get("/getAuth", async (req: Request, res: Response) => {
   }
 });
 
-export default router;
+module.exports = router;
