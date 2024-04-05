@@ -2,13 +2,11 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-interface Session {
+export interface Session {
   authenticated: boolean;
-  user: {
-    id: string;
-    email: string;
-  };
-  token: string;
+  id: string;
+  email: string;
+  role: "ROLE" | "MODERATOR" | "ADMIN" | undefined;
 }
 
 async function fetchSessionState(): Promise<Session> {
@@ -21,11 +19,9 @@ async function fetchSessionState(): Promise<Session> {
   } catch (error) {
     return {
       authenticated: false,
-      user: {
-        id: "",
-        email: "",
-      },
-      token: "",
+      email: "",
+      id: "",
+      role: undefined,
     };
   }
 }
@@ -33,11 +29,9 @@ async function fetchSessionState(): Promise<Session> {
 function useSession() {
   const [session, setSession] = useState<Session>({
     authenticated: false,
-    user: {
-      id: "",
-      email: "",
-    },
-    token: "",
+    email: "",
+    id: "",
+    role: undefined,
   });
   const [isLoading, setIsLoading] = useState(true);
 

@@ -11,7 +11,7 @@ export default function NavbarNav() {
       {session.session.authenticated ? (
         <div className="flex gap-4">
           <CartNav />
-          <ProfileNav />
+          <ProfileNav session={session.session} />
         </div>
       ) : (
         <div>

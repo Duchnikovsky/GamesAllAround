@@ -43,7 +43,7 @@ export default function CartItems() {
                 )
               }
             >
-              <div>{item.name}</div>
+              <div className="text-base">{item.name}</div>
               <div className="text-sm">
                 {item.quantity} x {item.price} PLN
               </div>
