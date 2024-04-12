@@ -35,22 +35,23 @@ model Category {
 }
 
 model Item {
-  id          String     @id
+  id          String      @id
   name        String
   price       Float
   stock       Int
-  description String     @db.VarChar(65535)
-  createdAt   DateTime   @default(now())
+  description String      @db.VarChar(65535)
+  createdAt   DateTime    @default(now())
   categoryId  String?
   producentId String?
   image       String
-  type        Int        @default(0)
+  type        Int         @default(0)
   dlcId       String?
   Cart        Cart[]
-  Category    Category?  @relation(fields: [categoryId], references: [id])
-  Item        Item?      @relation("ItemToItem", fields: [dlcId], references: [id])
-  other_Item  Item[]     @relation("ItemToItem")
-  Producent   Producent? @relation(fields: [producentId], references: [id])
+  Category    Category?   @relation(fields: [categoryId], references: [id])
+  Item        Item?       @relation("ItemToItem", fields: [dlcId], references: [id])
+  other_Item  Item[]      @relation("ItemToItem")
+  Producent   Producent?  @relation(fields: [producentId], references: [id])
+  OrderItem   OrderItem[]
 }
 
 model Personal {
@@ -76,10 +77,39 @@ model User {
   Address   Address?
   Cart      Cart[]
   Personal  Personal?
+  Order     Order[]
 }
 
 enum Role {
   USER
   MODERATOR
   ADMIN
+}
+
+model Order {
+  id          String      @id @default(uuid())
+  userId      String
+  createdAt   DateTime    @default(now())
+  totalAmount Float
+  status      OrderStatus @default(PENDING)
+  User        User        @relation(fields: [userId], references: [id])
+  OrderItem   OrderItem[]
+}
+
+model OrderItem {
+  id       String @id @default(uuid())
+  orderId  String
+  itemId   String
+  quantity Int
+  subtotal Float
+  Order    Order  @relation(fields: [orderId], references: [id])
+  Item     Item   @relation(fields: [itemId], references: [id])
+}
+
+enum OrderStatus {
+  PENDING
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  CANCELLED
 }

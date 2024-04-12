@@ -24,9 +24,11 @@ const port = process.env.APP_PORT || 3001;
 
 const authRoute = require("./routes/authRoutes");
 const cartRoute = require("./routes/cartRoutes");
+const dashboardRoute = require("./routes/dashboardRoutes");
 
 app.use("/auth", authRoute);
 app.use("/cart", cartRoute);
+app.use("/dashboard", dashboardRoute);
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
