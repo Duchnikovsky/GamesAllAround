@@ -25,6 +25,10 @@
   .bg-modal {
     background-image: radial-gradient(circle, rgba(35, 35, 37, 0.95) 0%, rgba(39, 39, 42, 0.85) 75%, rgba(45, 45, 50, 0.95) 100%);
   }
+
+  .text-shadow {
+    filter: drop-shadow(0 0 2px #000000);
+  }
 }
 
 @layer utilities {

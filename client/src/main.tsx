@@ -5,12 +5,17 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import Root from "./layout/Root";
 import Providers from "./components/Providers";
+import Dashboard from "./layout/Dashboard";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Root />,
   },
+  {
+    path: "/dashboard",
+    element: <Dashboard />,
+  }
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
