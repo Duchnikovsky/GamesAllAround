@@ -1,30 +1,35 @@
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 import { IoMdRefresh } from "react-icons/io";
 import { IoArrowUpCircleOutline } from "react-icons/io5";
-import { TbLoader3 } from "react-icons/tb";
 import { cn } from "../../../utils/tailwindMerge";
-import SalesCharts from "./SalesCharts";
+import { useQuery } from "@tanstack/react-query";
+import { TbLoader3 } from "react-icons/tb";
+import axios from "axios";
+import OrdersCharts from "./OrdersCharts";
 
-interface SalesTypes {
+interface OrdersTypes {
   name: string;
   endDate: Date;
-  sales: number;
+  orders: number;
+  gamesCount: number;
+  dlcsCount: number;
+  othersCount: number;
 }
 
-async function fetchSales() {
-  const url = `${import.meta.env.VITE_SERVER_URL}/dashboard/analytics/getSales`;
+async function fetchOrders() {
+  const url = `${
+    import.meta.env.VITE_SERVER_URL
+  }/dashboard/analytics/getOrders`;
   const { data } = await axios.get(url, {
     withCredentials: true,
   });
 
-  return data as SalesTypes[];
+  return data as OrdersTypes[];
 }
 
-export default function SalesCard() {
+export default function OrdersCard() {
   const { data, refetch, isLoading, isRefetching } = useQuery({
-    queryKey: ["sales-query"],
-    queryFn: fetchSales,
+    queryKey: ["analytics-orders-query"],
+    queryFn: fetchOrders,
     enabled: true,
     retry: false,
     refetchOnWindowFocus: false,
@@ -45,7 +50,7 @@ export default function SalesCard() {
   return (
     <div className="w-full h-full flex flex-col text-zinc-200 gap-2">
       <div className="flex flex-row justify-between text-zinc-200 text-2xl mb-6">
-        Total sales
+        Orders
         <IoMdRefresh
           className="cursor-pointer hover:text-zinc-500 transition-colors hover:animate-spin"
           onClick={() => refetch()}
@@ -53,13 +58,13 @@ export default function SalesCard() {
       </div>
       <div>
         <div className="text-3xl">
-          {data![0].sales} <span className="text-base">PLN</span>
+          {data![0].orders} <span className="text-base">Orders</span>
         </div>
         <div className="font-light text-zinc-200/60">Last week</div>
         <div className="flex flex-row gap-2 text-base items-center">
           <IoArrowUpCircleOutline
             className={cn(
-              data![0].sales > data![1].sales
+              data![0].orders > data![1].orders
                 ? "text-green-500"
                 : "text-red-500 rotate-180"
             )}
@@ -67,20 +72,20 @@ export default function SalesCard() {
           <div>
             <span
               className={cn(
-                data![0].sales > data![1].sales
+                data![0].orders > data![1].orders
                   ? "text-green-500"
                   : "text-red-500 rotate-180"
               )}
             >
-              {data![0].sales - data![1].sales}{" "}
+              {data![0].orders - data![1].orders}{" "}
             </span>
             vs previous week
           </div>
         </div>
       </div>
       <div>
-        <div className="text-2xl mb-2">Sales charts</div>
-        <SalesCharts sales={data!} />
+        <div className="text-2xl mb-2">Orders charts</div>
+        <OrdersCharts orders={data!} />
       </div>
     </div>
   );

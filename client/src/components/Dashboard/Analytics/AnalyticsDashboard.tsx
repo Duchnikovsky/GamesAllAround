@@ -1,5 +1,6 @@
 import { cn } from "../../../utils/tailwindMerge";
 import CustomersCard from "./CustomersCard";
+import OrdersCard from "./OrdersCard";
 import SalesCard from "./SalesCard";
 
 interface CardsTypes {
@@ -21,6 +22,12 @@ const analyticsCards: CardsTypes[] = [
     title: "Customers",
     rowSpan: 2,
     content: <CustomersCard />
+  },
+  {
+    id: 3,
+    title: "Orders",
+    rowSpan: 2,
+    content: <OrdersCard />
   }
 ];
 

@@ -4,6 +4,7 @@ import { z } from "zod";
 import {
   getLatestUsers,
   getNewUsersCount,
+  getOrdersInWeek,
   getSalesInWeek,
 } from "../models/analyticsModels";
 
@@ -46,7 +47,7 @@ export async function getSales(req: Request, res: Response) {
 }
 
 export async function getUsers(req: Request, res: Response) {
-  const body = req.query
+  const body = req.query;
   try {
     const session = await getAuthSession(req);
 
@@ -59,6 +60,47 @@ export async function getUsers(req: Request, res: Response) {
     const newUsers = await getNewUsersCount();
 
     return res.status(200).send({ users, newUsers });
+  } catch (error) {
+    return res.status(500).send("Could fetch data, try again later");
+  }
+}
+
+interface WeeklyOrdersTypes {
+  name: string;
+  endDate: Date;
+  orders: number;
+  gamesCount: number;
+  dlcsCount: number;
+  othersCount: number;
+}
+
+export async function getOrders(req: Request, res: Response) {
+  try {
+    const session = await getAuthSession(req);
+
+    if (!session || session.role !== "ADMIN") {
+      return res.status(401).send("You aren't authorized to fetch this data");
+    }
+
+    const todayDate = new Date();
+
+    const weeklyOrders: WeeklyOrdersTypes[] = [];
+
+    for (let i = 0; i < 4; i++) {
+      const endDate = new Date(todayDate);
+      endDate.setDate(todayDate.getDate() - i * 7);
+      const orders = await getOrdersInWeek(endDate);
+      weeklyOrders.push({
+        name: `Week ${i + 1}`,
+        endDate: endDate,
+        orders: orders.ordersCount,
+        gamesCount: orders.games,
+        dlcsCount: orders.dlcs,
+        othersCount: orders.others,
+      });
+    }
+
+    return res.status(200).send(weeklyOrders);
   } catch (error) {
     return res.status(500).send("Could fetch data, try again later");
   }
