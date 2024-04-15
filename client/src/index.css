@@ -40,4 +40,13 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
+
+  .thin-scrollbar::-webkit-scrollbar {
+    width: 5px;
+    background-color: #18181b;
+  }
+  .thin-scrollbar::-webkit-scrollbar-thumb {
+    background-color: #3f3f46;
+    border-radius: 5px;
+  }
 }
