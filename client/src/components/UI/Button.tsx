@@ -2,11 +2,11 @@ import React from "react";
 import { TbLoader3 } from "react-icons/tb";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  isLoading: boolean;
-  isDisabled: boolean;
+  isLoading?: boolean | false;
+  isDisabled?: boolean | false;
   width: string;
   height: string;
-  fontSize: string;
+  fontSize?: string | "16px";
   margin?: string | 0
 }
 
