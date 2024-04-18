@@ -26,11 +26,13 @@ const authRoute = require("./routes/authRoutes");
 const cartRoute = require("./routes/cartRoutes");
 const dashboardRoute = require("./routes/dashboardRoutes");
 const categoriesRoute = require("./routes/categoriesRoutes")
+const producentsRoute = require('./routes/producentsRoutes')
 
 app.use("/auth", authRoute);
 app.use("/cart", cartRoute);
 app.use("/dashboard", dashboardRoute);
 app.use('/categories', categoriesRoute)
+app.use('/producents', producentsRoute)
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
