@@ -18,6 +18,6 @@ export async function getItems(req: Request, res: Response) {
     if (error instanceof z.ZodError) {
       return res.status(400).send(error.errors[0].message);
     }
-    return res.status(500).send("Could sign out, try again later");
+    return res.status(500).send("Could fetch cart, try again later");
   }
 }
