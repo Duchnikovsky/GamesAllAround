@@ -6,38 +6,36 @@ interface SignInInputsProps {
   setValues: React.Dispatch<React.SetStateAction<Values>>;
 }
 
+const inputs: AuthInputTypes[] = [
+  {
+    name: "email",
+    type: "email",
+    label: "Email",
+    pattern: "[^@ \t\r\n]+@[^@ \t\r\n]+.[^@ \t\r\n]+",
+    maxlenght: 100,
+  },
+  {
+    name: "password",
+    type: "password",
+    label: "Password",
+    pattern: "^[A-Za-z0-9]{6,18}$",
+    maxlenght: 18,
+    className: 'text-xl'
+  },
+];
+
 export default function SignInInputs({ values, setValues }: SignInInputsProps) {
-  const inputs: AuthInputTypes[] = [
-    {
-      name: "email",
-      type: "email",
-      label: "Email",
-      pattern: "[^@ \t\r\n]+@[^@ \t\r\n]+.[^@ \t\r\n]+",
-      fontSize: 16,
-      maxlenght: 100,
-    },
-    {
-      name: "password",
-      type: "password",
-      label: "Password",
-      pattern: "^[A-Za-z0-9]{6,18}$",
-      fontSize: 24,
-      maxlenght: 18,
-    },
-  ];
   
   return <>{inputs.map((input) => (
     <Input
       key={input.name}
       type={input.type}
-      width="100%"
-      height="3rem"
       label={input.label}
-      fontSize={input.fontSize}
       length={values[input.name].length}
       maxLength={input.maxlenght}
       pattern={input.pattern}
       autoComplete="off"
+      className={input?.className}
       value={values[input.name]}
       onChange={(e) =>
         setValues({ ...values, [input.name]: e.target.value })

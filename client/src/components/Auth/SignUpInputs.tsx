@@ -13,7 +13,6 @@ export default function SignUpInputs({ values, setValues }: SignUpInputsProps) {
       type: "email",
       label: "Email",
       pattern: "[^@ \t\r\n]+@[^@ \t\r\n]+.[^@ \t\r\n]+",
-      fontSize: 16,
       maxlenght: 100,
     },
     {
@@ -21,7 +20,7 @@ export default function SignUpInputs({ values, setValues }: SignUpInputsProps) {
       type: "password",
       label: "Password",
       pattern: "^[A-Za-z0-9]{6,18}$",
-      fontSize: 24,
+      className: "text-lg",
       maxlenght: 18,
     },
     {
@@ -29,7 +28,7 @@ export default function SignUpInputs({ values, setValues }: SignUpInputsProps) {
       type: "password",
       label: "Repeat password",
       pattern: "^[A-Za-z0-9]{6,18}$",
-      fontSize: 24,
+      className: "text-lg",
       maxlenght: 18,
     },
   ];
@@ -40,14 +39,12 @@ export default function SignUpInputs({ values, setValues }: SignUpInputsProps) {
         <Input
           key={input.name}
           type={input.type}
-          width="100%"
-          height="3rem"
           label={input.label}
-          fontSize={input.fontSize}
           length={values[input.name].length}
           maxLength={input.maxlenght}
           pattern={input.pattern}
           value={values[input.name]}
+          className={input.className}
           autoComplete="off"
           onChange={(e) =>
             setValues({ ...values, [input.name]: e.target.value })

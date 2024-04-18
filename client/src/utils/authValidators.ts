@@ -3,8 +3,8 @@ export interface AuthInputTypes{
   type: string;
   label: string;
   pattern: string;
-  fontSize: number;
   maxlenght: number;
+  className?: string;
 }
 
 export interface SignInPayload {

@@ -1,8 +1,11 @@
+import { useDispatch } from "react-redux";
 import { Button } from "../../UI/Button";
 import BestsellersCard from "./BestsellersCard";
 import ProductsCard from "./ProductsCard";
+import { setModal } from "../../../states/modal/modalSlice";
 
 export default function ProductsDashboard() {
+  const dispatch = useDispatch();
 
   return (
     <div className="absolute w-full top-32 sm:top-24 left-0">
@@ -12,8 +15,10 @@ export default function ProductsDashboard() {
         </div>
         <div className="sm:mt-1">
           <Button
-            width="8rem"
-            height="2.5rem"
+            className="w-[8rem] h-[2.5rem] text-lg"
+            onClick={() =>
+              dispatch(setModal({ isOpen: true, modalType: "addProduct" }))
+            }
           >
             Add Product
           </Button>

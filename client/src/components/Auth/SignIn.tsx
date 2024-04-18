@@ -29,9 +29,6 @@ export default function SignIn() {
       <SignInInputs values={values} setValues={setValues} />
       <SignInFoot />
       <Button
-        width="100%"
-        height="3rem"
-        fontSize="20px"
         isDisabled={false}
         isLoading={isSignInPending}
         type="submit"

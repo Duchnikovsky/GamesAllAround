@@ -31,9 +31,6 @@ export default function SignUp() {
       <SignUpInputs values={values} setValues={setValues} />
       <SignUpFoot />
       <Button
-        width="100%"
-        height="3rem"
-        fontSize="20px"
         isDisabled={false}
         isLoading={isSignUpPending}
         type="submit"
