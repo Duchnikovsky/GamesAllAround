@@ -1,4 +1,6 @@
+import { z } from "zod";
 import { prisma } from "..";
+import { newProductValidator } from "../utils/productUtils";
 
 export async function getAllProducts(value: string) {
   const products = await prisma.item.findMany({
@@ -70,4 +72,27 @@ export async function getBestsellingProducts() {
   }));
 
   return productSales;
+}
+
+export async function addNewProduct({
+  name,
+  price,
+  description,
+  producent,
+  category,
+  image,
+}: z.infer<typeof newProductValidator>) {
+  const product = await prisma.item.create({
+    data: {
+      name,
+      price,
+      description,
+      stock: 0,
+      producentId: producent,
+      categoryId: category,
+      image: image,
+    },
+  });
+
+  return product;
 }
