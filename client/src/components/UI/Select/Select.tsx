@@ -52,14 +52,14 @@ export default function Select({
       {isOpen && (
         <div
           className={cn(
-            "absolute w-64 max-h-64 p-1 h-auto mt-1 flex items-center rounded border border-zinc-100/40 bg-zinc-800 overflow-y-auto thin-scrollbar z-[15]",
+            "absolute w-64 max-h-64 p-1 h-auto mt-1 flex items-center rounded border border-zinc-100/40 bg-modal-noopacity overflow-y-auto thin-scrollbar z-[15]",
             className
           )}
         >
           {options.map((option, index) => (
             <div
               key={index}
-              className="w-full h-8 p-2 rounded bg-transparent flex items-center text-base tracking-[0.15rem] font-normal transition-all hover:bg-zinc-900 cursor-pointer"
+              className="w-full h-8 p-2 rounded bg-transparent flex items-center text-base tracking-[0.15rem] font-normal transition-all hover:bg-zinc-800 cursor-pointer"
               onClick={() => handleSelect(option)}
             >
               {option.label}

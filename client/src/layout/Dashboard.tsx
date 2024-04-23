@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { Session } from "../hooks/Session";
 import { toast } from "react-toastify";
+import Modal from "../components/Modal/Modal";
 
 async function fetchSession(navigate: (path: string) => void) {
   try {
@@ -54,6 +55,7 @@ export default function Dashboard() {
           <DashboardNav />
           <Outlet />
         </div>
+        <Modal />
       </div>
     </div>
   );
