@@ -20,7 +20,7 @@ model Address {
 }
 
 model Cart {
-  id        String   @id
+  id        String   @id @default(uuid())
   userId    String
   itemId    String
   createdAt DateTime @default(now())
@@ -29,13 +29,13 @@ model Cart {
 }
 
 model Category {
-  id   String @id
+  id   String @id @default(uuid())
   name String
   Item Item[]
 }
 
 model Item {
-  id          String      @id
+  id          String      @id @default(uuid())
   name        String
   price       Float
   stock       Int
@@ -63,7 +63,7 @@ model Personal {
 }
 
 model Producent {
-  id   String @id
+  id   String @id @default(uuid())
   name String
   Item Item[]
 }
