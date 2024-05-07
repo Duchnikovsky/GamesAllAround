@@ -5,23 +5,9 @@ import AddProductCategory from "./AddProductCategory";
 import AddProductImage from "./AddProductImage";
 import AddProductProducent from "./AddProductProducent";
 import { ValuesContext } from "./AddProduct";
+import { AddProductInputTypes } from "../../../../utils/productValidators";
 
-interface Values {
-  name: string;
-  price: number;
-  description: string;
-  image: string;
-}
-
-interface InputTypes {
-  name: keyof Values;
-  type: string;
-  label: string;
-  maxLength: number;
-  className?: string;
-}
-
-const inputs: InputTypes[] = [
+const inputs: AddProductInputTypes[] = [
   {
     name: "name",
     type: "text",
@@ -42,7 +28,7 @@ export default function AddProductInputs() {
   return (
     <div className="w-full flex flex-col sm:flex-row">
       <div className="w-full sm:w-1/2 sm:pr-12 flex flex-col gap-4">
-        {inputs.map((input: InputTypes, index) => {
+        {inputs.map((input: AddProductInputTypes, index) => {
           return (
             <Input
               length={
