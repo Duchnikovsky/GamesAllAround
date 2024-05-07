@@ -1,8 +1,13 @@
 import express = require("express");
-import { getCategories } from "../controllers/categoriesControllers";
+import {
+  addCategory,
+  getCategories,
+} from "../controllers/categoriesControllers";
 
 const router: express.Router = express.Router();
 
 router.get("/getCategories", getCategories);
+
+router.post("/addCategory", addCategory);
 
 module.exports = router;

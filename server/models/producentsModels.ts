@@ -5,3 +5,21 @@ export async function fetchProducents() {
 
   return producents;
 }
+
+export async function getProducentByName(name: string) {
+  const producent = await prisma.producent.findFirst({
+    where: {
+      name,
+    },
+  });
+
+  return producent;
+}
+
+export async function addNewProducent(name: string) {
+  await prisma.producent.create({
+    data: {
+      name,
+    },
+  });
+}

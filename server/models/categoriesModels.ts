@@ -10,3 +10,21 @@ export async function fetchCategories() {
 
   return categories;
 }
+
+export async function getCategoryByName(name: string) {
+  const category = await prisma.category.findFirst({
+    where: {
+      name,
+    },
+  });
+
+  return category;
+}
+
+export async function addNewCategory(name: string) {
+  await prisma.category.create({
+    data: {
+      name,
+    },
+  });
+}
