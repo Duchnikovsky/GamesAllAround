@@ -16,7 +16,7 @@ model Address {
   street      String?
   residence   String
   postcode    String
-  User        User    @relation(fields: [userId], references: [id])
+  User        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Cart {
@@ -24,8 +24,8 @@ model Cart {
   userId    String
   itemId    String
   createdAt DateTime @default(now())
-  Item      Item     @relation(fields: [itemId], references: [id])
-  User      User     @relation(fields: [userId], references: [id])
+  Item      Item     @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  User      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Category {
@@ -52,6 +52,7 @@ model Item {
   other_Item  Item[]      @relation("ItemToItem")
   Producent   Producent?  @relation(fields: [producentId], references: [id])
   OrderItem   OrderItem[]
+  ItemCode    ItemCode[]
 }
 
 model Personal {
@@ -59,7 +60,7 @@ model Personal {
   name     String
   lastname String
   phone    String
-  User     User   @relation(fields: [userId], references: [id])
+  User     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Producent {
@@ -92,7 +93,7 @@ model Order {
   createdAt   DateTime    @default(now())
   totalAmount Float
   status      OrderStatus @default(PENDING)
-  User        User        @relation(fields: [userId], references: [id])
+  User        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
   OrderItem   OrderItem[]
 }
 
@@ -102,8 +103,8 @@ model OrderItem {
   itemId   String
   quantity Int
   subtotal Float
-  Order    Order  @relation(fields: [orderId], references: [id])
-  Item     Item   @relation(fields: [itemId], references: [id])
+  Order    Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  Item     Item   @relation(fields: [itemId], references: [id], onDelete: Cascade)
 }
 
 enum OrderStatus {
@@ -112,4 +113,11 @@ enum OrderStatus {
   SHIPPED
   DELIVERED
   CANCELLED
+}
+
+model ItemCode {
+  id     String @id @default(uuid())
+  itemId String
+  code   String
+  Item   Item   @relation(fields: [itemId], references: [id], onDelete: Cascade)
 }
