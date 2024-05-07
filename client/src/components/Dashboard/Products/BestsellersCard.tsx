@@ -32,7 +32,7 @@ export default function BestsellersCard() {
   const list = data || []
 
   return (
-    <div className="w-full p-4 bg-zinc-900/90 flex flex-col border border-zinc-200/20 rounded-lg col-span-1">
+    <div className="w-full p-4 bg-modal flex flex-col border border-zinc-200/20 rounded-lg row-span-1 col-span-1">
       <div className="flex flex-row justify-between text-zinc-200 text-2xl">
         Bestsellers list
       </div>

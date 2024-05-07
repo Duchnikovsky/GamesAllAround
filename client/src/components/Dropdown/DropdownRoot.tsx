@@ -45,8 +45,8 @@ const DropdownRoot = React.forwardRef<HTMLDivElement, DropdownRootProps>(
             ref={dropdownRef}
             className={`absolute flex flex-col p-2 gap-1 ${
               theme === "dark"
-                ? "bg-zinc-800/70 light-shadow"
-                : "bg-zinc-200/70 dark-shadow"
+                ? "bg-modal light-shadow"
+                : "bg-zinc-200 dark-shadow"
             } h-auto rounded-md z-10 items-center`}
             style={{
               width: width + "rem",

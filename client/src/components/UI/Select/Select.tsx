@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { cn } from "../../../utils/tailwindMerge";
 import { IoChevronDown } from "react-icons/io5";
 
@@ -12,6 +12,7 @@ interface CustomSelectProps {
   onSelect: (option: Option) => void;
   className?: string;
   placeholder: string;
+  preselectedOption?: Option;
 }
 
 export default function Select({
@@ -19,9 +20,10 @@ export default function Select({
   onSelect,
   className,
   placeholder,
+  preselectedOption,
 }: CustomSelectProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [selectedOption, setSelectedOption] = useState<Option>();
+  const [selectedOption, setSelectedOption] = useState<Option>(preselectedOption!);
 
   const toggleDropdown = () => setIsOpen(!isOpen);
 
@@ -30,6 +32,12 @@ export default function Select({
     setIsOpen(false);
     onSelect(option);
   };
+
+  useEffect(() => {
+    if (preselectedOption) {
+      setSelectedOption(preselectedOption);
+    }
+  }, [preselectedOption])
 
   return (
     <div className="relative">
@@ -52,7 +60,7 @@ export default function Select({
       {isOpen && (
         <div
           className={cn(
-            "absolute w-64 max-h-64 p-1 h-auto mt-1 flex items-center rounded border border-zinc-100/40 bg-modal-noopacity overflow-y-auto thin-scrollbar z-[15]",
+            "absolute w-64 max-h-64 p-1 h-auto mt-1 flex flex-col items-center rounded border border-zinc-100/40 bg-modal overflow-y-auto thin-scrollbar z-[15]",
             className
           )}
         >

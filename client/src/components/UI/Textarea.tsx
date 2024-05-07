@@ -24,11 +24,11 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
           {...props}
         />
         {length === 0 ? (
-          <div className="absolute top-[0.7rem] ml-4 text-base text-zinc-300 bg-modal-noopacity/70 peer-focus:-top-3 peer-focus:ml-2 peer-focus:bg-modal-noopacity peer-focus:px-4 peer-focus:ml-0 transition-all duration-300 pointer-events-none ">
+          <div className="absolute top-[0.7rem] ml-4 text-base text-zinc-300 bg-inputlabel/70 peer-focus:-top-3 peer-focus:ml-2 peer-focus:bg-inputlabel peer-focus:px-4 peer-focus:ml-0 transition-all duration-300 pointer-events-none ">
             {label}
           </div>
         ) : (
-          <div className="absolute -top-3 ml-2 text-base text-zinc-300 bg-modal-noopacity px-4 transition-all duration-300 pointer-events-none">
+          <div className="absolute -top-3 ml-2 text-base text-zinc-300 bg-inputlabel px-4 transition-all duration-300 pointer-events-none">
             {label}
           </div>
         )}

@@ -12,7 +12,7 @@ async function fetchSession(navigate: (path: string) => void) {
     const { data } = await axios.get<Session>(url, {
       withCredentials: true,
     });
-    if(data.role !== "ADMIN") {
+    if (data.role !== "ADMIN") {
       toast.error("You are not authorized to view this page");
       navigate("/");
       return {
@@ -55,8 +55,8 @@ export default function Dashboard() {
           <DashboardNav />
           <Outlet />
         </div>
-        <Modal />
       </div>
+      <Modal />
     </div>
   );
 }

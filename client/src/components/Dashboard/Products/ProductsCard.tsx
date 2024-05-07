@@ -2,13 +2,17 @@ import { FormEvent, useRef, useState } from "react";
 import { IoMdRefresh } from "react-icons/io";
 import ProductsSearchbar from "./ProductsSearchbar";
 import ProductsList from "./ProductsList";
+import { Button } from "../../UI/Button";
+import { useDispatch } from "react-redux";
+import { setModal } from "../../../states/modal/modalSlice";
 
 export default function ProductsCard() {
+  const dispatch = useDispatch()
   const [value, setValue] = useState<string>("");
   const refetchRef = useRef<any>(null);
 
   return (
-    <div className="w-full p-4 bg-zinc-900/90 flex flex-col gap-2 border border-zinc-200/20 rounded-lg col-span-2">
+    <div className="w-full p-4 bg-modal flex flex-col gap-2 border border-zinc-200/20 rounded-lg sm:col-span-2">
       <div className="flex flex-row justify-between text-zinc-200 text-2xl">
         Products list
         <IoMdRefresh
@@ -39,6 +43,14 @@ export default function ProductsCard() {
           <div className="w-8 h-8 ml-auto"></div>
         </div>
         <ProductsList value={value} ref={refetchRef} />
+        <Button
+          className="mt-auto ml-auto w-48 h-10"
+          onClick={() =>
+            dispatch(setModal({ isOpen: true, modalType: "addProduct" }))
+          }
+        >
+          Add Product
+        </Button>
       </div>
     </div>
   );

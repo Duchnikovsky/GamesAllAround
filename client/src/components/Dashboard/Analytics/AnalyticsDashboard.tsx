@@ -44,7 +44,7 @@ export default function AnalyticsDashboard() {
           <div
             key={card.id}
             className={cn(
-              "w-full p-4 bg-zinc-900/90 border border-zinc-200/20 rounded-lg row-span-1",
+              "w-full p-4 bg-modal border border-zinc-200/20 rounded-lg row-span-1",
               card.rowSpan == 2 && `row-span-2`
             )}
           >
