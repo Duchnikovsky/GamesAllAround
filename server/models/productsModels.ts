@@ -96,3 +96,97 @@ export async function addNewProduct({
 
   return product;
 }
+
+export async function getProductById(id: string) {
+  const product = await prisma.item.findUnique({
+    where: {
+      id,
+    },
+    select: {
+      id: true,
+      name: true,
+      price: true,
+      description: true,
+      Producent: {
+        select: {
+          name: true,
+          id: true,
+        },
+      },
+      Category: {
+        select: {
+          name: true,
+          id: true,
+        },
+      },
+    },
+  });
+
+  return {
+    ...product,
+    producent: product!.Producent!.id,
+    category: product!.Category!.id,
+  };
+}
+
+export async function editProductById({
+  id,
+  name,
+  price,
+  description,
+  producent,
+  category,
+}: {
+  id: string;
+  name: string;
+  price: number;
+  description: string;
+  producent: string;
+  category: string;
+}) {
+  const product = await prisma.item.update({
+    where: {
+      id,
+    },
+    data: {
+      name,
+      price,
+      description,
+      producentId: producent,
+      categoryId: category,
+    },
+  });
+
+  return product;
+}
+
+export async function removeProductById(id: string) {
+  await prisma.item.delete({
+    where: {
+      id,
+    },
+  });
+}
+
+export async function addProductCode(itemId: string, codes: string) {
+  await prisma.itemCode.createMany({
+    data: codes.split(";").map((code) => ({
+      code,
+      itemId,
+    })),
+    skipDuplicates: true,
+  });
+
+  const count = codes.split(";").length;
+
+  await prisma.item.update({
+    where: {
+      id: itemId,
+    },
+    data: {
+      stock: {
+        increment: count,
+      },
+    },
+  });
+}
