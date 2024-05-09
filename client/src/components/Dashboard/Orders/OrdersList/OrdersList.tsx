@@ -10,14 +10,6 @@ import {
 import { cn } from "../../../../utils/tailwindMerge";
 import { MdOutlineSubdirectoryArrowRight } from "react-icons/md";
 
-enum OrderStatus {
-  PENDING = 'PENDING',
-  PROCESSING = 'PROCESSING',
-  SHIPPED = 'SHIPPED',
-  DELIVERED = 'DELIVERED',
-  CANCELLED = 'CANCELLED',
-}
-
 async function fetchOrders(value: string) {
   const url = `${
     import.meta.env.VITE_SERVER_URL
