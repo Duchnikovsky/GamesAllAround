@@ -1,14 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { forwardRef, useImperativeHandle, useState } from "react";
-import { TbChevronDown, TbLoader3 } from "react-icons/tb";
-import {
-  OrderedItemsTypes,
-  OrdersTypes,
-  colorStatus,
-} from "../../../../utils/orderValidators";
+import { forwardRef, useContext, useImperativeHandle } from "react";
+import { TbLoader3 } from "react-icons/tb";
+import { OrdersTypes } from "../../../../utils/orderValidators";
+import OrderListElement from "./OrderListElement";
+import { SelectOrdersContext } from "./OrdersListCard";
 import { cn } from "../../../../utils/tailwindMerge";
-import { MdOutlineSubdirectoryArrowRight } from "react-icons/md";
 
 async function fetchOrders(value: string) {
   const url = `${
@@ -21,9 +18,8 @@ async function fetchOrders(value: string) {
   return data as OrdersTypes[];
 }
 
-
 const OrdersList = forwardRef(({ value }: { value: string }, ref) => {
-  const [expandOrder, setExpandOrder] = useState<string>("");
+  const selectedOrders = useContext(SelectOrdersContext);
 
   const { data, refetch, isRefetching, isLoading } = useQuery({
     queryKey: ["dashboard-orders-query"],
@@ -32,7 +28,7 @@ const OrdersList = forwardRef(({ value }: { value: string }, ref) => {
     retry: false,
     refetchOnWindowFocus: false,
   });
-  
+
   const list = data || [];
 
   useImperativeHandle(ref, () => ({
@@ -52,87 +48,38 @@ const OrdersList = forwardRef(({ value }: { value: string }, ref) => {
 
   return (
     <>
+      <div className="w-full h-8 pr-4 bg-zinc-900/90 flex flex-row items-center text-zinc-200/70">
+        <div className="w-8 h-8 flex items-center justify-center">
+          <div
+            className={cn(
+              "w-4 h-4 border border border-zinc-200 rounded cursor-pointer",
+              selectedOrders.selectedOrders.length === list.length
+                ? "bg-zinc-300"
+                : ""
+            )}
+            onClick={() => {
+              if (selectedOrders.selectedOrders.length === list.length) {
+                selectedOrders.setSelectedOrders([]);
+              } else {
+                selectedOrders.setSelectedOrders(
+                  list.map((order) => order.id!)
+                );
+              }
+            }}
+          ></div>
+        </div>
+        <div className="w-64 sm:w-[16rem] ml-2">ID</div>
+        <div className="w-64 hidden sm:block ml-4">Customer</div>
+        <div className="w-36 ml-4">Status</div>
+        <div className="w-8 h-8 ml-auto"></div>
+      </div>
       {list.flatMap((order: OrdersTypes) => {
-        let statusColor = colorStatus(order.status);
-
         return (
           <div
             key={order.id}
             className="w-full h-min-8 odd:bg-zinc-900/40 even:bg-zinc-800/40 flex flex-col text-zinc-200"
           >
-            <div className="w-full h-min-8 px-4 flex items-center">
-              <div className="w-72 sm:w-[16rem] overflow-x-auto no-scrollbar whitespace-nowrap ">
-                {order.id}
-              </div>
-              <div className="w-4"></div>
-              <div className="w-72 hidden sm:block text-left overflow-x-auto no-scrollbar whitespace-nowrap">{order.customer}</div>
-              <div className="w-28 hidden sm:block">{order.cost}</div>
-              <div className={cn("w-24 overflow-x-auto no-scrollbar whitespace-nowrap", statusColor)}>{order.status}</div>
-              <div className="w-8 h-8 ml-auto flex items-center justify-center cursor-pointer hover:text-zinc-500 transition-colors duration-200">
-                <TbChevronDown
-                  size={24}
-                  onClick={() => {
-                    if (expandOrder === order.id) {
-                      setExpandOrder("");
-                    } else {
-                      setExpandOrder(order.id);
-                    }
-                  }}
-                  className={cn(
-                    "transition-transform",
-                    expandOrder === order.id ? "rotate-0" : "rotate-180"
-                  )}
-                />
-              </div>
-            </div>
-            <div
-              className={cn(
-                "flex flex-col h-0 overflow-y-auto no-scrollbar transition-all"
-              )}
-              style={{
-                height:
-                  expandOrder === order.id
-                    ? order.products.length * 2 + 2 + "rem"
-                    : "0",
-              }}
-            >
-              <div className="w-full h-min-8 px-4 flex items-center bg-zinc-950/60 text-zinc-200/70">
-                <div className="relative sm:w-8 w-12 h-8 flex items-center">
-                  <div className="bg-zinc-300 h-8 w-[2px] ml-1"></div>
-                </div>
-                <div className="w-72 sm:w-[16rem] overflow-x-auto no-scrollbar whitespace-nowrap">
-                  Item ID
-                </div>
-                <div className="w-72 ml-auto text-right overflow-x-auto no-scrollbar whitespace-nowrap">
-                  Item name
-                </div>
-              </div>
-              {order.products.map(
-                (product: OrderedItemsTypes, index: number) => (
-                  <div className="w-full h-min-8 px-4 flex items-center bg-zinc-950/60">
-                    <div className="relative sm:w-8 w-12 h-8 flex items-center">
-                      {index + 1 === order.products.length ? (
-                        <div>
-                          <div className="absolute top-0 bg-zinc-300 h-4 w-[2px] ml-1"></div>
-                          <MdOutlineSubdirectoryArrowRight
-                            size={24}
-                            className="mb-2"
-                          />
-                        </div>
-                      ) : (
-                        <div className="bg-zinc-300 h-8 w-[2px] ml-1"></div>
-                      )}
-                    </div>
-                    <div className="w-72 sm:w-[22.5rem] overflow-x-auto no-scrollbar whitespace-nowrap">
-                      {product.id}
-                    </div>
-                    <div className="w-72 ml-auto text-right overflow-x-auto no-scrollbar whitespace-nowrap">
-                      {product.quantity} x {product.name}
-                    </div>
-                  </div>
-                )
-              )}
-            </div>
+            <OrderListElement order={order!} />
           </div>
         );
       })}
