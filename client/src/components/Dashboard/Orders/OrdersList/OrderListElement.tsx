@@ -3,7 +3,7 @@ import { OrdersTypes, colorStatus } from "../../../../utils/orderValidators";
 import { cn } from "../../../../utils/tailwindMerge";
 import { TbChevronDown } from "react-icons/tb";
 import OrderElementDetails from "./OrderElementDetails";
-import { SelectOrdersContext } from "./OrdersListCard";
+import { SelectOrdersContext } from "./../OrdersDashboard";
 
 interface OrderListElementProps {
   order: OrdersTypes;

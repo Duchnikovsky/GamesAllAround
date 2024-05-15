@@ -4,7 +4,7 @@ import { forwardRef, useContext, useImperativeHandle } from "react";
 import { TbLoader3 } from "react-icons/tb";
 import { OrdersTypes } from "../../../../utils/orderValidators";
 import OrderListElement from "./OrderListElement";
-import { SelectOrdersContext } from "./OrdersListCard";
+import { SelectOrdersContext } from "./../OrdersDashboard";
 import { cn } from "../../../../utils/tailwindMerge";
 
 async function fetchOrders(value: string) {

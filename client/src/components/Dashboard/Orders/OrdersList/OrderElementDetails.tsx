@@ -64,7 +64,7 @@ export default function OrderElementDetails({
         </div>
       </div>
       {order.products.map((product: OrderedItemsTypes, index: number) => (
-        <div className="w-full h-min-8 px-4 flex items-center">
+        <div className="w-full h-min-8 px-4 flex items-center" key={index}>
           <div className="relative sm:w-8 w-12 h-8 flex items-center">
             {index + 1 === order.products.length ? (
               <div>
