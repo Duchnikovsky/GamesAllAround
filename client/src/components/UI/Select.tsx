@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { cn } from "../../../utils/tailwindMerge";
+import { cn } from "../../utils/tailwindMerge";
 import { IoChevronDown } from "react-icons/io5";
 
 type Option = {
@@ -43,13 +43,13 @@ export default function Select({
     <div className="relative">
       <div
         className={cn(
-          "relative w-64 h-10 pl-4 pr-8 bg-transparent rounded border border-zinc-100/40 flex items-center text-base font-normal transition-all hover:border-zinc-100/60 cursor-pointer",
+          "relative w-64 h-10 pl-4 pr-8 bg-transparent rounded border border-zinc-100/40 flex items-center text-zinc-200 text-base font-normal transition-all hover:border-zinc-100/60 cursor-pointer",
           className,
         )}
         onClick={toggleDropdown}
       >
         {selectedOption ? (
-          selectedOption.label
+          <span className="tracking-wider">{selectedOption.label}</span>
         ) : (
           <span className="text-zinc-100">{placeholder}</span>
         )}
@@ -60,7 +60,7 @@ export default function Select({
       {isOpen && (
         <div
           className={cn(
-            "absolute w-64 max-h-64 p-1 h-auto mt-1 flex flex-col items-center rounded border border-zinc-100/40 bg-modal overflow-y-auto thin-scrollbar z-[15]",
+            "absolute w-64 max-h-64 p-1 h-auto mt-1 flex flex-col items-center rounded border border-zinc-100/40 text-zinc-200 bg-modal overflow-y-auto thin-scrollbar z-[15]",
             className
           )}
         >

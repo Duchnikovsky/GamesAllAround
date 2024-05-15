@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import Select from "../../../UI/Select/Select";
+import Select from "../../../UI/Select";
 import { useContext } from "react";
 import { ValuesContext } from "./AddProduct";
 
