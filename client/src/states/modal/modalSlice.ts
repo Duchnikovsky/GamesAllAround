@@ -3,13 +3,15 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 interface ModalState {
   isOpen: boolean;
   modalType: string;
-  objectId?: string | null;
+  objectId?: string | string[] | null;
+  optionalData?: any;
 }
 
 const InitialState: ModalState = {
   isOpen: false,
   modalType: "",
   objectId: null,
+  optionalData: null,
 };
 
 export const modalSlice = createSlice({
@@ -21,12 +23,14 @@ export const modalSlice = createSlice({
       action: PayloadAction<{
         isOpen: boolean;
         modalType: string;
-        objectId?: string;
+        objectId?: string | string[];
+        optionalData?: any;
       }>
     ) => {
       state.isOpen = action.payload.isOpen;
       state.modalType = action.payload.modalType;
       state.objectId = action.payload.objectId || null;
+      state.optionalData = action.payload.optionalData || null;
     },
   },
 });

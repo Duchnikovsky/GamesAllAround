@@ -1,12 +1,15 @@
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../states/store";
 import { setModal } from "../../states/modal/modalSlice";
-import logo from '../../assets/logo.png';
+import logo from "../../assets/logo.png";
 import SignIn from "../Auth/SignIn";
 import SignUp from "../Auth/SignUp";
 import AddProduct from "../Dashboard/Products/AddProduct/AddProduct";
 import EditProduct from "../Dashboard/Products/EditProduct/EditProduct";
 import RemoveProduct from "../Dashboard/Products/RemoveProduct";
+import CustomerDelete from "../Dashboard/Customers/CustomersList/CustomersManager/CustomerDelete";
+import CustomersDelete from "../Dashboard/Customers/CustomersList/CustomersManager/CustomersDelete";
+import CustomerEdit from "../Dashboard/Customers/CustomersList/CustomersManager/CustomerEdit";
 
 interface modalsTypes {
   id: number;
@@ -32,18 +35,33 @@ export default function Modal() {
     {
       id: 2,
       name: "addProduct",
-      component: <AddProduct />
+      component: <AddProduct />,
     },
     {
       id: 3,
       name: "editProduct",
-      component: <EditProduct />
+      component: <EditProduct />,
     },
     {
       id: 4,
       name: "removeProduct",
-      component: <RemoveProduct />
+      component: <RemoveProduct />,
     },
+    {
+      id: 5,
+      name: "removeCustomer",
+      component: <CustomerDelete />,
+    },
+    {
+      id: 6,
+      name: "removeCustomers",
+      component: <CustomersDelete />
+    },
+    {
+      id: 7,
+      name: "editCustomer",
+      component: <CustomerEdit />
+    }
   ];
 
   const activeModal = modals.find((m) => m.name === modal.modalType);
@@ -55,10 +73,10 @@ export default function Modal() {
         onClick={() => dispatch(setModal({ isOpen: false, modalType: "" }))}
       >
         <div
-          className='w-screen sm:w-auto rounded bg-modal text-zinc-200 tracking-wider border border-px border-zinc-100/10 flex flex-col items-center gap-2 py-6 overflow-visible'
+          className="w-screen sm:w-auto center flex-col px-4 py-6 rounded-3xl bg-modal text-zinc-50 tracking-wider overflow-visible box-shadow shadow-zinc-50"
           onClick={(e) => e.stopPropagation()}
         >
-          <img src={logo} alt="logo" className="w-20" loading="lazy"/>
+          <img src={logo} alt="logo" className="w-20 mb-4" loading="lazy" />
           {activeModal?.component}
         </div>
       </div>
