@@ -11,7 +11,7 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ isDisabled, label, length, className, ...props }, ref) => {
     return (
-      <div className={cn("relative w-full h-12 box-border px-2 rounded flex items-center border border-zinc-100/40 gap-2 transition-all focus-within:border-zinc-50", className)}>
+      <div className={cn("relative w-full h-12 box-border px-2 rounded-xl flex items-center border border-zinc-100/40 gap-2 transition-all focus-within:border-zinc-50", className)}>
         <input
           className="peer w-full h-full px-2 bg-transparent outline-0 border-0 pt-0.5 tracking-[0.15rem] font-normal"
           spellCheck="false"

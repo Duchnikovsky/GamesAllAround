@@ -32,6 +32,7 @@ export default function SignIn() {
         isDisabled={false}
         isLoading={isSignInPending}
         type="submit"
+        className="text-2xl"
       >
         Sign In
       </Button>

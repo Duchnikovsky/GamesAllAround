@@ -23,15 +23,18 @@
   }
 
   .bg-modal {
-    background-image: radial-gradient(circle, rgba(9, 9, 12, 1) 0%, rgba(19, 19, 22, 1) 75%, rgba(20, 20, 26, 0.95) 100%);
+    background-image: radial-gradient(circle, rgba(9, 9, 12, 1) 0%, rgba(12, 12, 15, 1) 75%, rgba(16, 16, 20, 0.95) 100%);
   }
 
   .bg-inputlabel {
-    background-color: rgba(19, 19, 22, 1);
+    background-color: rgba(13, 13, 15, 1);
   }
 
   .text-shadow {
     filter: drop-shadow(0 0 2px #000000);
+  }
+  .box-shadow{
+    box-shadow: 0 0 0.25rem rgb(255, 255, 255, 0.5);
   }
 }
 
@@ -63,5 +66,30 @@
 
   input[type=number] {
     -moz-appearance: textfield;
+  }
+
+  .center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .text-crop {
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .text-crop::-webkit-scrollbar {
+    display: none;
+  }
+
+  .text-crop {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .transition-resize{
+    transition-property: height, padding;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   }
 }

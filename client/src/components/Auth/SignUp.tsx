@@ -34,6 +34,7 @@ export default function SignUp() {
         isDisabled={false}
         isLoading={isSignUpPending}
         type="submit"
+        className="text-2xl"
       >
         Sign Up
       </Button>
