@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { cn } from "../../utils/tailwindMerge";
 import { IoChevronDown } from "react-icons/io5";
+import { FaCheck } from "react-icons/fa6";
 
 type Option = {
   value: string;
@@ -13,6 +14,8 @@ interface CustomSelectProps {
   className?: string;
   placeholder: string;
   preselectedOption?: Option;
+  disabled?: boolean;
+  title?: string;
 }
 
 export default function Select({
@@ -21,9 +24,13 @@ export default function Select({
   className,
   placeholder,
   preselectedOption,
+  disabled,
+  title,
 }: CustomSelectProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [selectedOption, setSelectedOption] = useState<Option>(preselectedOption!);
+  const [selectedOption, setSelectedOption] = useState<Option>(
+    preselectedOption!
+  );
 
   const toggleDropdown = () => setIsOpen(!isOpen);
 
@@ -37,16 +44,18 @@ export default function Select({
     if (preselectedOption) {
       setSelectedOption(preselectedOption);
     }
-  }, [preselectedOption])
+  }, [preselectedOption]);
 
   return (
-    <div className="relative">
+    <div className={cn("relative", className)}>
       <div
         className={cn(
-          "relative w-64 h-10 pl-4 pr-8 bg-transparent rounded border border-zinc-100/40 flex items-center text-zinc-200 text-base font-normal transition-all hover:border-zinc-100/60 cursor-pointer",
+          "relative w-64 h-10 pl-4 pr-8 bg-transparent rounded-lg border border-zinc-100/40 flex items-center text-zinc-200 text-base font-normal transition-all hover:border-zinc-100/60 cursor-pointer",
           className,
+          disabled &&
+            "cursor-not-allowed hover:border-zinc-100/40 hover:bg-transparent hover:text-zinc-200"
         )}
-        onClick={toggleDropdown}
+        onClick={disabled ? undefined : toggleDropdown}
       >
         {selectedOption ? (
           <span className="tracking-wider">{selectedOption.label}</span>
@@ -54,27 +63,44 @@ export default function Select({
           <span className="text-zinc-100">{placeholder}</span>
         )}
         <div className="absolute right-0 top-0 w-10 h-10 flex items-center justify-center">
-          <IoChevronDown className={cn('rotate-0 transition-transform', isOpen && 'rotate-180')}/>
+          <IoChevronDown />
         </div>
       </div>
-      {isOpen && (
-        <div
-          className={cn(
-            "absolute w-64 max-h-64 p-1 h-auto mt-1 flex flex-col items-center rounded border border-zinc-100/40 text-zinc-200 bg-modal overflow-y-auto thin-scrollbar z-[15]",
-            className
-          )}
-        >
-          {options.map((option, index) => (
+      <div
+        className={cn(
+          "absolute top-12 w-64 max-h-64 px-1 h-0 mt-1 flex flex-col items-center rounded-lg border  text-zinc-200 bg-modal overflow-y-auto thin-scrollbar z-[15] transition-resize duration-150",
+          className,
+          isOpen ? "border-zinc-100/40" : "border-transparent duration-75"
+        )}
+        style={{
+          height: isOpen
+            ? options.length * 2 + (title ? 2 : 0) + 0.75 + "rem"
+            : "0",
+        }}
+      >
+        {title && (
+          <div className="w-full mt-1 h-8 flex items-center pl-8 font-semibold">
+            {title}
+          </div>
+        )}
+        {options.map((option, index) => (
+          <div
+            key={index}
+            className="relative w-full h-8 pl-8 rounded bg-transparent flex items-center tracking-wider font-normal transition-all hover:bg-zinc-800 cursor-pointer first:mt-1 text-crop"
+            onClick={() => handleSelect(option)}
+          >
             <div
-              key={index}
-              className="w-full h-8 p-2 rounded bg-transparent flex items-center text-base tracking-[0.15rem] font-normal transition-all hover:bg-zinc-800 cursor-pointer"
-              onClick={() => handleSelect(option)}
+              className={cn(
+                "absolute left-0 top-0 w-8 h-8 hidden",
+                option.label === selectedOption.label && "center"
+              )}
             >
-              {option.label}
+              <FaCheck size={12} />
             </div>
-          ))}
-        </div>
-      )}
+            {option.label}
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
