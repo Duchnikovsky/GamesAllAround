@@ -6,11 +6,11 @@ export interface OrderedItemsTypes {
 }
 
 enum OrderStatus {
-  PENDING = 'PENDING',
-  PROCESSING = 'PROCESSING',
-  SHIPPED = 'SHIPPED',
-  DELIVERED = 'DELIVERED',
-  CANCELLED = 'CANCELLED',
+  PENDING = "PENDING",
+  PROCESSING = "PROCESSING",
+  SHIPPED = "SHIPPED",
+  DELIVERED = "DELIVERED",
+  CANCELLED = "CANCELLED",
 }
 
 export interface OrdersTypes {
@@ -19,6 +19,7 @@ export interface OrdersTypes {
   cost: number;
   status: OrderStatus;
   products: OrderedItemsTypes[];
+  createdAt: Date;
 }
 
 export function colorStatus(status: OrderStatus) {

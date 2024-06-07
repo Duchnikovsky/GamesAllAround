@@ -44,6 +44,7 @@ export async function getOrdersByValue(value: string) {
           },
         },
       },
+      createdAt: true,
     },
   });
 
@@ -58,6 +59,7 @@ export async function getOrdersByValue(value: string) {
       price: item.Item.price,
       quantity: item.quantity,
     })),
+    createdAt: order.createdAt,
   }));
 }
 

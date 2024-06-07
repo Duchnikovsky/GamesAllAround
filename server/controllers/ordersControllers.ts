@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import { z } from "zod";
 import { getAuthSession } from "./authControllers";
 import { changeStatusByIds, deleteOrdersByIds, getOrdersByValue } from "../models/ordersModels";
-import { OrderStatus } from "@prisma/client";
 
 export async function getOrders(req: Request, res: Response) {
   const body = req.query;

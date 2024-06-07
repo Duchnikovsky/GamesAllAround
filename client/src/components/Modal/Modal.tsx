@@ -10,6 +10,10 @@ import RemoveProduct from "../Dashboard/Products/RemoveProduct";
 import CustomerDelete from "../Dashboard/Customers/CustomersList/CustomersManager/CustomerDelete";
 import CustomersDelete from "../Dashboard/Customers/CustomersList/CustomersManager/CustomersDelete";
 import CustomerEdit from "../Dashboard/Customers/CustomersList/CustomersManager/CustomerEdit";
+import OrderDelete from "../Dashboard/Orders/OrdersManager/OrderDelete";
+import OrdersDelete from "../Dashboard/Orders/OrdersManager/OrdersDelete";
+import OrderChangeStatus from "../Dashboard/Orders/OrdersManager/OrderChangeStatus";
+import OrdersChangeStatus from "../Dashboard/Orders/OrdersManager/OrdersChangeStatus";
 
 interface modalsTypes {
   id: number;
@@ -61,7 +65,27 @@ export default function Modal() {
       id: 7,
       name: "editCustomer",
       component: <CustomerEdit />
-    }
+    },
+    {
+      id: 8,
+      name: "removeOrder",
+      component: <OrderDelete />
+    },
+    {
+      id: 9,
+      name: "removeOrders",
+      component: <OrdersDelete />
+    },
+    {
+      id: 10,
+      name: "editOrder",
+      component: <OrderChangeStatus />
+    },
+    {
+      id: 10,
+      name: "editOrders",
+      component: <OrdersChangeStatus />
+    },
   ];
 
   const activeModal = modals.find((m) => m.name === modal.modalType);

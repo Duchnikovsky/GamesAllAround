@@ -1,4 +1,3 @@
-import { MdOutlineSubdirectoryArrowRight } from "react-icons/md";
 import {
   OrderedItemsTypes,
   OrdersTypes,
@@ -6,83 +5,59 @@ import {
 } from "../../../../utils/orderValidators";
 import { cn } from "../../../../utils/tailwindMerge";
 
-interface OrderElementDetailsProps {
-  order: OrdersTypes;
+interface OrdersArrayTypes {
+  label: string;
+  value: string;
 }
 
-export default function OrderElementDetails({
-  order,
-}: OrderElementDetailsProps) {
+export default function OrderElementDetails({ order }: { order: OrdersTypes }) {
   let statusColor = colorStatus(order.status!);
 
+  const orderDetails: OrdersArrayTypes[] = Object.entries(order)
+    .filter(([key]) => key !== "products" && key !== "createdAt")
+    .map(([key, value]) => ({
+      label: key.substring(0, 1).toUpperCase() + key.substring(1),
+      value: value,
+    }));
+
   return (
-    <div>
-      <div className="w-full h-6 px-4 flex items-center text-zinc-200/70 text-sm">
-        <div className="w-72 hidden sm:block sm:w-[20rem] overflow-x-auto no-scrollbar whitespace-nowrap">
-          Order ID
-        </div>
-        <div className="w-72 ml-auto text-right overflow-x-auto no-scrollbar whitespace-nowrap">
-          Customer
-        </div>
-      </div>
-      <div className="w-full h-6 px-4 flex items-center text-zinc-200">
-        <div className="w-72 hidden sm:block sm:w-[20rem] overflow-x-auto no-scrollbar whitespace-nowrap">
-          {order.id}
-        </div>
-        <div className="w-72 ml-auto text-right overflow-x-auto no-scrollbar whitespace-nowrap">
-          {order.customer}
-        </div>
-      </div>
-      <div className="w-full h-6 px-4 flex items-center text-zinc-200/70 text-sm">
-        <div className="w-72 hidden sm:block sm:w-[20rem] overflow-x-auto no-scrollbar whitespace-nowrap">
-          Status of order
-        </div>
-        <div className="w-72 ml-auto text-right overflow-x-auto no-scrollbar whitespace-nowrap">
-          Total price
-        </div>
-      </div>
-      <div className="w-full h-6 px-4 flex items-center text-zinc-200">
-        <div
-          className={cn(
-            "w-72 sm:w-[20rem] hidden sm:block overflow-x-auto no-scrollbar whitespace-nowrap",
-            statusColor
-          )}
-        >
-          {order.status}
-        </div>
-        <div className="w-72 ml-auto text-right overflow-x-auto no-scrollbar whitespace-nowrap">
-          {order.cost}
-        </div>
-      </div>
-      <div className="w-full h-min-8 h-8 px-4 flex items-center bg-zinc-800 text-zinc-200/70">
-      <div className="relative sm:w-8 w-12 h-8 flex items-center"></div>
-        <div className="w-72 sm:w-[16rem] overflow-x-auto no-scrollbar whitespace-nowrap">
-          Item ID
-        </div>
-        <div className="w-72 ml-auto text-right overflow-x-auto no-scrollbar whitespace-nowrap">
-          Quantity x Item name
-        </div>
-      </div>
-      {order.products.map((product: OrderedItemsTypes, index: number) => (
-        <div className="w-full h-min-8 px-4 flex items-center" key={index}>
-          <div className="relative sm:w-8 w-12 h-8 flex items-center">
-            {index + 1 === order.products.length ? (
-              <div>
-                <div className="absolute top-0 bg-zinc-300 h-4 w-[2px] ml-1"></div>
-                <MdOutlineSubdirectoryArrowRight size={24} className="mb-2" />
-              </div>
-            ) : (
-              <div className="bg-zinc-300 h-8 w-[2px] ml-1"></div>
-            )}
-          </div>
-          <div className="w-72 sm:w-[22.5rem] overflow-x-auto no-scrollbar whitespace-nowrap">
-            {product.id}
-          </div>
-          <div className="w-72 ml-auto text-right overflow-x-auto no-scrollbar whitespace-nowrap">
-            {product.quantity} x {product.name}
-          </div>
+    <div className=" grid grid-cols-2">
+      {orderDetails.map((item: OrdersArrayTypes) => (
+        <div className="flex flex-col h-12 odd:text-left odd:pl-4 sm:odd:pl-2 even:pr-4 even:text-right">
+          <span className="text-sm text-zinc-400">{item.label}</span>
+          <span
+            className={cn("text-crop", item.label === "Status" && statusColor)}
+          >
+            {item.value}
+          </span>
         </div>
       ))}
+      <div className="col-span-2 h-min-8 h-8 flex items-center bg-zinc-950/60 pr-4 text-zinc-200/70">
+        <div className="w-64 ml-2 hidden sm:block md:w-[24rem]">Item ID</div>
+        <div className="w-96 ml-4">Item name</div>
+        <div className="w-12 hidden lg:block ml-4 overflow-x-visible text-nowrap">
+          Quantity
+        </div>
+        <div className="w-32 ml-auto text-right block sm:hidden md:block">
+          Price
+        </div>
+      </div>
+      <div className="col-span-2 flex flex-col">
+        {order.products.map((product: OrderedItemsTypes) => (
+          <div key={product.id} className="h-min-8 h-8 pr-4 flex items-center">
+            <div className="w-64 ml-2 hidden sm:block md:w-[24rem]">
+              {product.id}
+            </div>
+            <div className="w-96 ml-4">{product.name}</div>
+            <div className="w-12 hidden lg:block ml-4 overflow-x-visible text-nowrap">
+              {product.quantity}
+            </div>
+            <div className="w-32 ml-auto text-right block sm:hidden md:block">
+              {product.price}
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

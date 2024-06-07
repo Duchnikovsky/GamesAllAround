@@ -1,6 +1,5 @@
 import { createContext, useState } from "react";
 import OrdersListCard from "./OrdersList/OrdersListCard";
-import OrdersManager from "./OrdersManager/OrdersManager";
 
 export const SelectOrdersContext = createContext<{
   selectedOrders: string[];
@@ -25,7 +24,6 @@ export default function OrdersDashboard() {
       >
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-12 sm:mt-0">
           <OrdersListCard />
-          <OrdersManager />
         </div>
       </SelectOrdersContext.Provider>
     </div>
