@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import Select from "../../../UI/Select";
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import { EditValuesContext } from "./EditProduct";
 
 interface ProducentsBaseType {
@@ -23,7 +23,6 @@ async function fetchProducents() {
 
 export default function EditProductProducent() {
   const { values, setValues } = useContext(EditValuesContext);
-  const [preselectedOption, setPreselectedOption] = useState<ProducentType>();
 
   const { data } = useQuery<ProducentsBaseType[]>({
     queryKey: ["products-producent-query"],
@@ -42,20 +41,16 @@ export default function EditProductProducent() {
     });
   });
 
-  useEffect(() => {
-    setPreselectedOption(
-      producents.find((option) => option.value === values.producent)
-    );
-  }, [values]);
-
   return (
     <Select
       options={producents}
+      placeholder="Select a producent"
       onSelect={(option) => {
         setValues({ ...values, producent: option.value });
       }}
-      placeholder="Select a producent"
-      preselectedOption={preselectedOption}
+      preselectedOption={producents[0]}
+      className="w-full mx-auto"
+      title="Producent"
     />
   );
 }

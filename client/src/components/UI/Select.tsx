@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { cn } from "../../utils/tailwindMerge";
 import { IoChevronDown } from "react-icons/io5";
 import { FaCheck } from "react-icons/fa6";
@@ -29,7 +29,7 @@ export default function Select({
 }: CustomSelectProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [selectedOption, setSelectedOption] = useState<Option>(
-    preselectedOption!
+    preselectedOption || { value: "", label: "" }
   );
 
   const toggleDropdown = () => setIsOpen(!isOpen);
@@ -39,12 +39,6 @@ export default function Select({
     setIsOpen(false);
     onSelect(option);
   };
-
-  useEffect(() => {
-    if (preselectedOption) {
-      setSelectedOption(preselectedOption);
-    }
-  }, [preselectedOption]);
 
   return (
     <div className={cn("relative", className)}>

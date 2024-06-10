@@ -44,10 +44,13 @@ export default function AddProductProducent() {
   return (
     <Select
       options={producents}
+      placeholder="Select a producent"
       onSelect={(option) => {
         setValues({ ...values, producent: option.value });
       }}
-      placeholder="Select a producent"
+      preselectedOption={producents[0]}
+      className="w-full mx-auto"
+      title="Producent"
     />
   );
 }

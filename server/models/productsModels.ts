@@ -160,10 +160,12 @@ export async function editProductById({
   return product;
 }
 
-export async function removeProductById(id: string) {
-  await prisma.item.delete({
+export async function removeProductById(products: string[]) {
+  await prisma.item.deleteMany({
     where: {
-      id,
+      id: {
+        in: products,
+      },
     },
   });
 }

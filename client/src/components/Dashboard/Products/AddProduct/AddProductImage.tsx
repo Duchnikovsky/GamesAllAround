@@ -20,7 +20,7 @@ export default function AddProductImage() {
   return (
     <div
       className={cn(
-        "relative w-full h-[25.25rem] rounded border border-zinc-200/40 flex flex-col items-center justify-center cursor-pointer overflow-hidden"
+        "relative w-full h-[25.25rem] rounded-lg border border-zinc-200/40 flex flex-col items-center justify-center cursor-pointer overflow-hidden"
       )}
       onClick={handleImageClick}
     >

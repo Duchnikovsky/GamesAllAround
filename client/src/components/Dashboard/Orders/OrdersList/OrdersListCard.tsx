@@ -4,7 +4,7 @@ import { SelectOrdersContext } from "../OrdersDashboard";
 import ListNavOption from "../../ListNavOption";
 import { cn } from "../../../../utils/tailwindMerge";
 import ListNavSearchbar from "../../ListNavSearchbar";
-import { FaRegTrashAlt, FaUserEdit } from "react-icons/fa";
+import { FaRegEdit, FaRegTrashAlt } from "react-icons/fa";
 import { setModal } from "../../../../states/modal/modalSlice";
 import { toast } from "react-toastify";
 import { IoMdRefresh } from "react-icons/io";
@@ -60,7 +60,7 @@ export default function OrdersListCard() {
         </form>
         <div className="flex ml-auto">
           <ListNavOption
-            icon={<FaUserEdit size={20} />}
+            icon={<FaRegEdit size={20} />}
             subText="Edit status"
             onClick={() => {
               if (select.selectedOrders.length > 0) {

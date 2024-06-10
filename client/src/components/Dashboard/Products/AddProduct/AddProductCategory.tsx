@@ -43,11 +43,14 @@ export default function AddProductCategory() {
 
   return (
     <Select
-      options={categories}
       onSelect={(option) => {
         setValues({ ...values, category: option.value });
       }}
-      placeholder="Select a category"
+      options={categories}
+      placeholder="Select category"
+      preselectedOption={categories[0]}
+      className="w-full mx-auto"
+      title="Category"
     />
   );
 }

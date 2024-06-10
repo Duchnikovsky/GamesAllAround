@@ -13,7 +13,7 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
     return (
       <div
         className={cn(
-          "relative w-full h-24 box-border rounded flex items-start justify-start border border-zinc-100/40 transition-all focus-within:border-zinc-50",
+          "relative w-full h-24 box-border rounded-xl flex items-start justify-start border border-zinc-100/40 transition-all focus-within:border-zinc-50",
           className
         )}
       >

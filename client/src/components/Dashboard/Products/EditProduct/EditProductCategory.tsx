@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import Select from "../../../UI/Select";
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import { EditValuesContext } from "./EditProduct";
 
 interface CategoriesBaseTypes {
@@ -23,7 +23,6 @@ async function fetchCategories() {
 
 export default function EditProductCategory() {
   const { values, setValues } = useContext(EditValuesContext);
-  const [preselectedOption, setPreselectedOption] = useState<CategoryType>();
 
   const { data } = useQuery({
     queryKey: ["products-categories-query"],
@@ -42,20 +41,16 @@ export default function EditProductCategory() {
     });
   });
 
-  useEffect(() => {
-    setPreselectedOption(
-      categories.find((option) => option.value === values.category)
-    );
-  }, [values]);
-
   return (
     <Select
-      options={categories}
       onSelect={(option) => {
         setValues({ ...values, category: option.value });
       }}
-      placeholder="Select a category"
-      preselectedOption={preselectedOption}
+      options={categories}
+      placeholder="Select category"
+      preselectedOption={categories[0]}
+      className="w-full mx-auto"
+      title="Category"
     />
   );
 }

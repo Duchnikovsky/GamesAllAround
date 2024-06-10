@@ -4,7 +4,7 @@ import { cn } from "../../../../utils/tailwindMerge";
 import { SelectOrdersContext } from "./../OrdersDashboard";
 import { useDispatch } from "react-redux";
 import ListNavOption from "../../ListNavOption";
-import { FaRegTrashAlt, FaUserEdit } from "react-icons/fa";
+import { FaRegEdit, FaRegTrashAlt } from "react-icons/fa";
 import { setModal } from "../../../../states/modal/modalSlice";
 import { IoChevronDown } from "react-icons/io5";
 import OrderElementDetails from "./OrderElementDetails";
@@ -18,7 +18,6 @@ export default function OrderListElement({ order }: OrderListElementProps) {
   const select = useContext(SelectOrdersContext);
   const dispatch = useDispatch();
   let statusColor = colorStatus(order.status!);
-  console.log(order);
   let date = new Date(order.createdAt);
 
   return (
@@ -58,7 +57,7 @@ export default function OrderListElement({ order }: OrderListElementProps) {
           onClick={(e) => e.stopPropagation()}
         >
           <ListNavOption
-            icon={<FaUserEdit size={18} />}
+            icon={<FaRegEdit size={18} />}
             subText="Edit status"
             variant="small"
             onClick={() =>

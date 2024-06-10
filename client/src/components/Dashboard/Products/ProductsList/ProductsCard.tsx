@@ -1,56 +1,77 @@
-import { FormEvent, useRef, useState } from "react";
+import { FormEvent, useContext, useRef, useState } from "react";
 import { IoMdRefresh } from "react-icons/io";
-import ProductsSearchbar from "./ProductsSearchbar";
 import ProductsList from "./ProductsList";
-import { Button } from "../../../UI/Button";
 import { useDispatch } from "react-redux";
 import { setModal } from "../../../../states/modal/modalSlice";
+import ListNavOption from "../../ListNavOption";
+import ListNavSearchbar from "../../ListNavSearchbar";
+import { FaRegEdit, FaRegTrashAlt } from "react-icons/fa";
+import { SelectProductsContext } from "../ProductsDashboard";
+import { toast } from "react-toastify";
 
 export default function ProductsCard() {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const [value, setValue] = useState<string>("");
-  const refetchRef = useRef<any>(null);
+  const listRef = useRef<any>(null);
+  const select = useContext(SelectProductsContext);
 
   return (
     <div className="w-full p-4 bg-modal flex flex-col gap-2 border border-zinc-200/20 rounded-lg sm:col-span-2">
-      <div className="flex flex-row justify-between text-zinc-200 text-2xl">
-        Products list
-        <IoMdRefresh
-          className="cursor-pointer hover:text-zinc-500 transition-colors hover:animate-spin"
-          onClick={() => {
-            if (refetchRef.current) {
-              refetchRef.current.fetchList();
+      <div className="flex text-zinc-200 text-2xl">Products list</div>
+      <div className="w-full h-10 flex justify-start mt-2">
+        <form
+          onSubmit={(e: FormEvent) => {
+            e.preventDefault();
+            if (listRef.current) {
+              listRef.current.fetchList();
             }
           }}
-        />
-      </div>
-      <form
-        onSubmit={(e: FormEvent) => {
-          e.preventDefault();
-          if (refetchRef.current) {
-            refetchRef.current.fetchList();
-          }
-        }}
-      >
-        <ProductsSearchbar value={value} setValue={setValue} />
-      </form>
-      <div className="w-full h-[32rem] flex flex-col overflow-y-auto thin-scrollbar">
-        <div className="w-full h-8 mt-4 px-4 bg-zinc-900/90 flex flex-row items-center text-zinc-200/70">
-          <div className="w-80">Name</div>
-          <div className="w-72 hidden sm:block">Producent</div>
-          <div className="w-28">Price</div>
-          <div className="w-24 hidden sm:block">Stock</div>
-          <div className="w-8 h-8 ml-auto"></div>
-        </div>
-        <ProductsList value={value} ref={refetchRef} />
-        <Button
-          className="mt-auto ml-auto w-48 h-10"
-          onClick={() =>
-            dispatch(setModal({ isOpen: true, modalType: "addProduct" }))
-          }
         >
-          Add Product
-        </Button>
+          <ListNavSearchbar
+            value={value}
+            setValue={setValue}
+            placeholder="Search for products..."
+          />
+        </form>
+        <div className="flex ml-auto">
+          <ListNavOption
+            icon={<FaRegEdit size={20} />}
+            subText="Add product"
+            onClick={() =>
+              dispatch(setModal({ isOpen: true, modalType: "addProduct" }))
+            }
+          />
+          <ListNavOption
+            icon={<FaRegTrashAlt size={18} />}
+            subText="Delete"
+            onClick={() => {
+              if (select.selectedProducts.length > 0) {
+                dispatch(
+                  setModal({
+                    isOpen: true,
+                    modalType: "removeProducts",
+                    objectId: select.selectedProducts,
+                  })
+                );
+              } else {
+                toast.error("No products selected");
+              }
+            }}
+          />
+          <div className="mx-2 my-auto h-8 w-[1px] bg-zinc-400/30"></div>
+          <ListNavOption
+            icon={<IoMdRefresh size={24} />}
+            subText="Refresh"
+            onClick={() => {
+              if (listRef.current) {
+                listRef.current.fetchList();
+              }
+            }}
+          />
+        </div>
+      </div>
+      <div className="w-full h-[32rem] flex flex-col overflow-y-auto overflow-x-hidden thin-scrollbar">
+        <ProductsList value={value} ref={listRef} />
       </div>
     </div>
   );

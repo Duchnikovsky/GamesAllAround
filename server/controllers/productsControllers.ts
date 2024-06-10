@@ -134,15 +134,21 @@ export async function editProduct(req: Request, res: Response) {
 }
 
 export async function removeProduct(req: Request, res: Response) {
+  const body = await req.body;
   try {
-    const { id } = req.query;
-
     const session = await getAuthSession(req);
 
     if (!session || session.role !== "ADMIN")
       return res.status(401).send("You aren't authorized to remove this data");
 
-    await removeProductById(id as string);
+    const { products } = z
+      .object({
+        products: z.array(z.string()),
+      })
+      .parse(body);
+
+      
+    await removeProductById(products);
 
     return res.status(200).send();
   } catch (error) {

@@ -11,6 +11,7 @@ import {
 import { Button } from "../../../UI/Button";
 import { toast } from "react-toastify";
 import { setModal } from "../../../../states/modal/modalSlice";
+import { TbLoader3 } from "react-icons/tb";
 
 export const EditValuesContext = createContext<EditProductContextTypes>({
   values: {
@@ -70,9 +71,13 @@ export default function EditProduct() {
     },
   });
 
-  const { data: product } = useQuery({
+  const {
+    data: product,
+    isLoading,
+    isRefetching,
+  } = useQuery({
     queryKey: ["edit-product-query"],
-    queryFn: () => fetchProduct(modal.objectId!),
+    queryFn: () => fetchProduct(modal.objectId as string),
     enabled: true,
     refetchOnWindowFocus: false,
     retry: false,
@@ -91,18 +96,28 @@ export default function EditProduct() {
 
   return (
     <form
-      className="w-full sm:w-96 flex flex-col gap-6 px-8"
+      className="w-full sm:w-96 h-[33rem] flex flex-col gap-6 px-8"
       onSubmit={handleSubmit}
     >
-      <EditValuesContext.Provider value={{ values, setValues }}>
-        <div className="text-xl tracking-widest flex justify-center">
-          Editing {product?.name}
+      {isLoading || isRefetching ? (
+        <div className="w-full h-full center">
+          <TbLoader3
+            size={32}
+            strokeWidth={1}
+            className="animate-spin text-zinc-200"
+          />
         </div>
-        <EditProductInputs />
-        <Button type="submit" isLoading={isPending} isDisabled={isPending}>
-          Update product
-        </Button>
-      </EditValuesContext.Provider>
+      ) : (
+        <EditValuesContext.Provider value={{ values, setValues }}>
+          <div className="text-xl tracking-widest flex justify-center">
+            Editing {product?.name}
+          </div>
+          <EditProductInputs />
+          <Button type="submit" isLoading={isPending} isDisabled={isPending}>
+            Update product
+          </Button>
+        </EditValuesContext.Provider>
+      )}
     </form>
   );
 }

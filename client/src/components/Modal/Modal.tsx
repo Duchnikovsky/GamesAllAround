@@ -14,6 +14,7 @@ import OrderDelete from "../Dashboard/Orders/OrdersManager/OrderDelete";
 import OrdersDelete from "../Dashboard/Orders/OrdersManager/OrdersDelete";
 import OrderChangeStatus from "../Dashboard/Orders/OrdersManager/OrderChangeStatus";
 import OrdersChangeStatus from "../Dashboard/Orders/OrdersManager/OrdersChangeStatus";
+import RemoveProducts from "../Dashboard/Products/RemoveProducts";
 
 interface modalsTypes {
   id: number;
@@ -85,6 +86,11 @@ export default function Modal() {
       id: 10,
       name: "editOrders",
       component: <OrdersChangeStatus />
+    },
+    {
+      id: 11,
+      name: "removeProducts",
+      component: <RemoveProducts />,
     },
   ];
 

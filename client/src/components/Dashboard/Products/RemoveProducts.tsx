@@ -7,11 +7,11 @@ import { toast } from "react-toastify";
 import { setModal } from "../../../states/modal/modalSlice";
 import { FormEvent, useContext } from "react";
 import { SelectProductsContext } from "./ProductsDashboard";
-import { GoPackage } from "react-icons/go";
 import { LuArrowUpFromDot } from "react-icons/lu";
 import { FaTrash } from "react-icons/fa";
+import { TbPackages } from "react-icons/tb";
 
-export default function RemoveProduct() {
+export default function RemoveProducts() {
   const select = useContext(SelectProductsContext);
   const dispatch = useDispatch();
   const modal = useSelector((state: RootState) => state.modal);
@@ -30,7 +30,7 @@ export default function RemoveProduct() {
     onError: (err) => {
       if (err instanceof axios.AxiosError)
         return toast.error(err.response?.data);
-      return toast.error("Could not delete product, try again later");
+      return toast.error("Could not delete products, try again later");
     },
     onSuccess: () => {
       dispatch(setModal({ isOpen: false, modalType: "" }));
@@ -51,17 +51,23 @@ export default function RemoveProduct() {
     >
       <div className="flex flex-col gap-2">
         <div className="text-xl tracking-widest font-medium">
-          Delete Product
+          Delete Products
         </div>
         <div className="text-sm text-justify font-light">
-          Are you sure you want to delete the product{" "}
-          <span className="font-medium">{modal.optionalData}</span>, once you do
-          this there will be no going back
+          Are you sure you want to delete the array of products with ids:
+          <div className="w-full h-max-32 h-auto p-2 mt-2 bg-zinc-900/60 rounded border border-zinc-200/40 thin-scrollbar">
+            {(modal.objectId as string[]).map((id: string) => (
+              <div key={id}>{id}</div>
+            ))}
+          </div>
+        </div>
+        <div className="text-sm text-justify font-light">
+          once you do this there will be no going back
         </div>
       </div>
       <hr className="opacity-50"></hr>
       <div className="grid grid-cols-3 center gap-6">
-        <GoPackage size={32} />
+        <TbPackages size={32} strokeWidth={1}/>
         <LuArrowUpFromDot size={32} className="rotate-90" />
         <FaTrash size={32} />
       </div>
